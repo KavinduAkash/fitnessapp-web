@@ -1,0 +1,7 @@
+body {
+    background: #eae6df;
+}
+
+.MuiAppBar-root {
+    box-shadow: none!important;
+}
