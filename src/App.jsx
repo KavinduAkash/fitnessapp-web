@@ -3,6 +3,7 @@ import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import DefaultTheme from "./theme/default-theme";
 import {useRoutes} from "react-router-dom";
 import './App.css'
+import './fonts.css'
 import Home from "./views/home.jsx";
 import Profile from "./views/profile.jsx";
 
