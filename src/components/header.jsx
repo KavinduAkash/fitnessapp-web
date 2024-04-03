@@ -16,7 +16,7 @@ import Logo from '../assets/fitness-social-logo.png';
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import AppBarTheme from "../theme/appbar-theme.js";
 
-const pages = ['Feeds', 'Workouts', 'Meal Plans'];
+const pages = ['Feeds', 'Followers', 'Workouts', 'Meal Plans'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
@@ -49,8 +49,9 @@ function Header() {
                 <AppBar position="static">
                     <Container maxWidth="sm">
                         <Toolbar disableGutters>
-
-                            <img src={Logo} alt="" width={100}/>
+                            <Box sx={{ display: { xs: 'none', md: 'flex' }}}>
+                                <img src={Logo} alt="" width={100}/>
+                            </Box>
 
                             <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                                 <IconButton
@@ -90,11 +91,9 @@ function Header() {
                             </Box>
 
 
-
-
-
-
-                            <AdbIcon sx={{display: {xs: 'flex', md: 'none'}, mr: 1}}/>
+                            <Box sx={{ display: { xs: 'flex', md: 'none' }}}>
+                                <img src={Logo} alt="" width={100}/>
+                            </Box>
 
                             <Typography
                                 variant="h5"
@@ -102,7 +101,6 @@ function Header() {
                                 component="a"
                                 href="#app-bar-with-responsive-menu"
                                 sx={{
-                                    mr: 2,
                                     display: {xs: 'flex', md: 'none'},
                                     flexGrow: 1,
                                     fontFamily: 'monospace',
@@ -112,7 +110,7 @@ function Header() {
                                     textDecoration: 'none',
                                 }}
                             >
-                                LOGO
+
                             </Typography>
                             <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}, justifyContent: 'center'}}>
                                 {pages.map((page) => (

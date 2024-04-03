@@ -13,17 +13,17 @@ main-gray: #edf2ff
 const DefaultTheme = createTheme({
     palette: {
         primary: {
-            main: '#00bfff',
+            main: '#145392',
         },
         secondary: {
-            main: '#FFDC2A',
+            main: '#d7e6f2',
         },
         btnColor: {
-            white: '#b9db2f',
-            black: '#83a31a',
+            white: '#145392',
+            black: '#53aced',
         },
         subText: {
-            main: '#b9db2f'
+            main: '#437db0'
         }
     },
     typography: {
