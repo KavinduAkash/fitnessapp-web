@@ -9,3 +9,48 @@ body {
 .MuiAppBar-root {
     box-shadow: none!important;
 }
+
+.react-datepicker-wrapper {
+    /*background: #ebeaea;*/
+}
+
+.react-datepicker-wrapper>div {
+    position: relative;
+}
+
+.react-datepicker-wrapper>div::before {
+    content: "Birthday";
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    font-size: 13px;
+    color: #145392;
+}
+.react-datepicker-wrapper>div>input {
+    background: #ebeaea;
+    font: inherit;
+    letter-spacing: inherit;
+    color: currentColor;
+    padding: 4px 0 5px;
+    border: 0;
+    box-sizing: content-box;
+    height: 1.4375em;
+    margin: 0;
+    -webkit-tap-highlight-color: transparent;
+    display: block;
+    min-width: 0;
+    width: 100%;
+    -webkit-animation-name: mui-auto-fill-cancel;
+    animation-name: mui-auto-fill-cancel;
+    -webkit-animation-duration: 10ms;
+    animation-duration: 10ms;
+    padding-top: 25px;
+    padding-right: 12px;
+    padding-bottom: 8px;
+    padding-left: 12px;
+    border-bottom: 1px solid gray;
+}
+
+.react-datepicker-ignore-onclickoutside {
+    border: none!important;
+}

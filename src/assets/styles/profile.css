@@ -53,6 +53,28 @@
     margin-right: 5px;
 }
 
+.profile-edit-pic {
+    width: 200px;
+    aspect-ratio: 1/1;
+    border: 1px solid lightgray;
+    text-align: center;
+    position: relative;
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.profile-edit-pic>label {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    /*width: 100px;*/
+    height: 50px;
+    margin: auto;
+    font-size: 10px;
+    opacity: 0.8;
+}
+
 @media all and (max-width: 576px) {
     .profile-head-data {
         grid-template-columns: repeat(2, 1fr);
