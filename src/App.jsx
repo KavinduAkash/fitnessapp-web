@@ -6,6 +6,7 @@ import './App.css'
 import './fonts.css'
 import Home from "./views/home.jsx";
 import Profile from "./views/profile.jsx";
+import Signup from "./views/signup";
 
 const appr = [
   {
@@ -15,6 +16,10 @@ const appr = [
   {
     path: "/profile",
     element: <Profile/>,
+  },
+  {
+    path: "/signup",
+    element: <Signup/>,
   }
 ]
 

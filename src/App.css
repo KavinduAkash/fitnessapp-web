@@ -7,18 +7,19 @@ body {
 }
 
 .MuiAppBar-root {
-    box-shadow: none!important;
+    box-shadow: none !important;
 }
 
 .react-datepicker-wrapper {
-    /*background: #ebeaea;*/
+    overflow: hidden;
+    width: 100%;
 }
 
-.react-datepicker-wrapper>div {
+.react-datepicker-wrapper > div {
     position: relative;
 }
 
-.react-datepicker-wrapper>div::before {
+.react-datepicker-wrapper > div::before {
     content: "Birthday";
     position: absolute;
     left: 10px;
@@ -26,7 +27,8 @@ body {
     font-size: 13px;
     color: #145392;
 }
-.react-datepicker-wrapper>div>input {
+
+.react-datepicker-wrapper > div > input {
     background: #ebeaea;
     font: inherit;
     letter-spacing: inherit;
@@ -39,7 +41,7 @@ body {
     -webkit-tap-highlight-color: transparent;
     display: block;
     min-width: 0;
-    width: 100%;
+    width: 100% !important;
     -webkit-animation-name: mui-auto-fill-cancel;
     animation-name: mui-auto-fill-cancel;
     -webkit-animation-duration: 10ms;
@@ -52,5 +54,25 @@ body {
 }
 
 .react-datepicker-ignore-onclickoutside {
-    border: none!important;
+    border: none !important;
+}
+
+.auth-views {
+    min-height: 100vh;
+    /*background: #145392;*/
+}
+
+.auth-sub-views {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.auth-bg-view {
+    background: url("assets/auth-view1.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100%;
 }
