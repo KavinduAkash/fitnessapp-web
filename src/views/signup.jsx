@@ -14,10 +14,10 @@ function SignUp() {
     return (
         <div className={'auth-views'}>
             <Grid container>
-                <Grid item xs={8} className={'auth-sub-views'}>
+                <Grid item xs={12} sm={12} md={6} lg={8}  className={'auth-sub-views auth-left-view'}>
                     <section className={'auth-bg-view'}></section>
                 </Grid>
-                <Grid item xs={4} className={'auth-sub-views'}>
+                <Grid item xs={12} sm={12} md={6} lg={4} className={'auth-sub-views'}>
 
 
                     <form action="">
@@ -66,11 +66,15 @@ function SignUp() {
                                 </FormControl>
                             </Box>
 
-                            <Box sx={{marginTop: '10px', textAlign: 'center'}}>
+                            <Box sx={{marginTop: '30px', textAlign: 'center'}}>
                                 <Button variant="contained" >Sign Up</Button>
                             </Box>
 
                         </section>
+
+                        <Box sx={{marginTop: '30px', textAlign: 'center'}}>
+                            Already have an account? <span className={'edit-btn-2'}>Sign In</span>
+                        </Box>
 
                     </form>
                 </Grid>
