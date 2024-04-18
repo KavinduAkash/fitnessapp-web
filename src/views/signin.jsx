@@ -126,7 +126,7 @@ function SignIn() {
                         </section>
 
                         <Box sx={{marginTop: '30px', textAlign: 'center'}}>
-                            Don't have an account? <span className={'edit-btn-2'}>Sign Up</span>
+                            Don't have an account? <span className={'edit-btn-2'} onClick={() => navigate("/signup")}>Sign Up</span>
                         </Box>
 
                     </form>

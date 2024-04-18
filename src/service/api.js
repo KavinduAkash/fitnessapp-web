@@ -15,9 +15,22 @@ export async function login(data) {
             "password": data.password
     };
 
-    console.log("asdasdasdasdasd")
-
     return await Api.callApi(
         _prepareApiObj('post', `/auth/signin`, body, "", '')
+    )
+}
+
+export async function register(data) {
+    let body = {
+        "firstName": data.firstName,
+        "lastName": data.lastName,
+        "email": data.email,
+        "dob": data.dob,
+        "gender": data.gender,
+        "password": data.password
+    };
+
+    return await Api.callApi(
+        _prepareApiObj('post', `/auth/signup`, body, "", '')
     )
 }
