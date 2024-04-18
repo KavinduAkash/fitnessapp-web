@@ -1,15 +1,11 @@
 import React, {useState} from "react";
-import Header from "../components/header.jsx";
-import {Box, Button, FormControl, Grid, InputLabel, TextField} from "@mui/material";
-import DatePicker from "react-datepicker";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import DialogActions from "@mui/material/DialogActions";
+import {Box, Button, Grid, TextField} from "@mui/material";
 import Logo from "../assets/fitness-social-logo.png";
 import * as API from "../service/api";
 import Swal from 'sweetalert2';
 import {useNavigate} from "react-router-dom";
 import * as emailValidator from "../utils/validators/email.validator";
+import {ACCESS_TOKEN, REFRESH_TOKEN} from "../utils/const.js";
 
 function SignIn() {
 
@@ -44,7 +40,9 @@ function SignIn() {
             if(r.success) {
                 if(r.data.statusCode==200) {
                     // success
-                    navigate("/");
+                    localStorage.setItem(ACCESS_TOKEN, r.data.token);
+                    localStorage.setItem(REFRESH_TOKEN, r.data.refreshToken);
+                    navigate("/profile");
                 } else {
                     // error
                     Swal.fire({
