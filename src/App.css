@@ -78,6 +78,15 @@ body {
     width: 100%;
 }
 
+.auth-bg-view2 {
+    background: url("assets/auth-view2.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100%;
+}
+
 .edit-btn-2 {
     color: #145392;
     text-decoration: underline;

@@ -7,6 +7,7 @@ import './fonts.css'
 import Home from "./views/home.jsx";
 import Profile from "./views/profile.jsx";
 import Signup from "./views/signup";
+import Signin from "./views/signin";
 
 const appr = [
   {
@@ -20,6 +21,10 @@ const appr = [
   {
     path: "/signup",
     element: <Signup/>,
+  },
+  {
+    path: "/signin",
+    element: <Signin/>,
   }
 ]
 
