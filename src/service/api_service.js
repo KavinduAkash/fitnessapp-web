@@ -20,6 +20,11 @@ export const callApi = async (apiObject) => {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
             }
+        } else if(apiObject.state === "no-body-auth") {
+            // Manage request header for json body data with auth
+            headers = {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
         } else {
             // Manage request header for json body data without auth
             headers = {

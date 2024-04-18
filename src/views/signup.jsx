@@ -20,7 +20,7 @@ function SignUp() {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [dob, setDob] = useState(new Date());
-    const [gender, setGender] = useState("");
+    const [gender, setGender] = useState("MALE");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 

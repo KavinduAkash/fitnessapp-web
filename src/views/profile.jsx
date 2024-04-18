@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../components/header.jsx";
 import '../assets/styles/profile.css';
 import UserVector from '../assets/user-vector.jpeg';
@@ -21,6 +21,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select from '@mui/material/Select';
 import MenuItem from "@mui/material/MenuItem";
 
+import * as API from "../service/api";
+
+import * as AgeFinder from "../utils/agefinder";
+
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
@@ -34,6 +38,13 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 function Profile() {
+
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [dob, setDOB] = useState("");
+    const [age, setAge] = useState("");
+    const [gender, setGender] = useState("");
 
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
@@ -58,6 +69,32 @@ function Profile() {
         }
     }, [open]);
 
+
+    const loadMyProfile = () => {
+        API.getMyProfileDetails().then(r => {
+            console.log(r);
+            if(r.success) {
+                if(r.data.success) {
+                    setFirstName(r.data.body.firstName);
+                    setLastName(r.data.body.lastName);
+                    setDOB(new Date(r.data.body.dob));
+                    setAge(AgeFinder.findAge(r.data.body.dob.split("T")[0]));
+                    setGender(r.data.body.gender);
+                    setEmail(r.data.body.email);
+                } else {
+
+                }
+            } else {
+
+            }
+        }).catch(e => {
+            console.log(e);
+        })
+    }
+
+    useEffect(() => {
+        loadMyProfile();
+    }, [])
 
     return (
         <div>
@@ -97,15 +134,15 @@ function Profile() {
 
                             <Box sx={{display: 'flex', marginTop: '10px'}}>
                                 <Box sx={{marginRight: '2px'}}>
-                                    <TextField id="filled-basic" label="First Name" variant="filled" />
+                                    <TextField id="filled-basic" value={firstName} label="First Name" variant="filled" />
                                 </Box>
                                 <Box sx={{marginLeft: '2px'}}>
-                                    <TextField id="filled-basic" label="Last Name" variant="filled" />
+                                    <TextField id="filled-basic" value={lastName} label="Last Name" variant="filled" />
                                 </Box>
                             </Box>
 
                             <Box sx={{marginTop: '10px'}}>
-                                <TextField id="filled-basic" label="Email" variant="filled" sx={{width: '100%'}} />
+                                <TextField id="filled-basic" value={email} disabled label="Email" variant="filled" sx={{width: '100%'}} />
                             </Box>
 
                             <Box sx={{display: 'flex', justifyContent: 'space-between', width: '100%', marginTop: '10px'}}>
@@ -119,7 +156,7 @@ function Profile() {
                                         <Select
                                             labelId="demo-simple-select-filled-label"
                                             id="demo-simple-select-filled"
-                                            value={"MALE"}
+                                            value={gender}
                                             // onChange={handleChange}
                                         >
                                             <MenuItem value={'MALE'}>Male</MenuItem>
@@ -195,13 +232,13 @@ function Profile() {
                   </div>
 
                   <div className={'profile-head-title mukta-bold'}>
-                      Siril Aiya <span className={'profile-head-edit'} onClick={handleClickOpen('body')}><EditIcon style={{fontSize: '13px'}}/>Edit</span>
+                      {firstName} {lastName} <span className={'profile-head-edit'} onClick={handleClickOpen('body')}><EditIcon style={{fontSize: '13px'}}/>Edit</span>
                   </div>
 
                   <div className={'profile-head-data'}>
 
-                      <div><span>Gender</span>Male</div>
-                      <div><span>Age</span>28</div>
+                      <div><span>Gender</span>{gender}</div>
+                      <div><span>Age</span>{age}</div>
                       <div><span>Followers</span>200</div>
                       <div><span>Following</span>201</div>
 

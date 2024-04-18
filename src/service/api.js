@@ -34,3 +34,9 @@ export async function register(data) {
         _prepareApiObj('post', `/auth/signup`, body, "", '')
     )
 }
+
+export async function getMyProfileDetails() {
+    return await Api.callApi(
+        _prepareApiObj('get', `/user/my`, null, "no-body-auth", '')
+    )
+}
