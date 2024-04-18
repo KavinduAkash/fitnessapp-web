@@ -24,6 +24,7 @@ import MenuItem from "@mui/material/MenuItem";
 import * as API from "../service/api";
 
 import * as AgeFinder from "../utils/agefinder";
+import Swal from "sweetalert2";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -82,13 +83,31 @@ function Profile() {
                     setGender(r.data.body.gender);
                     setEmail(r.data.body.email);
                 } else {
-
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Sorry!, something went wrong",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
             } else {
-
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }
         }).catch(e => {
-            console.log(e);
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
         })
     }
 
