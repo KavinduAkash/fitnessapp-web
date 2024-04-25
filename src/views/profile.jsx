@@ -13,7 +13,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 import {styled} from '@mui/material/styles';
-import {Box, FormControl, InputLabel, TextField} from "@mui/material";
+import {Box, FormControl, Grid, InputLabel, TextField} from "@mui/material";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -25,6 +25,7 @@ import * as API from "../service/api";
 
 import * as AgeFinder from "../utils/agefinder";
 import Swal from "sweetalert2";
+import ProfilePostCard from "../components/profile-post-card.jsx";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -404,7 +405,22 @@ function Profile() {
                         </div>
                     </section>
                     {/*---- content posts, meal plans, workspaces ----  */}
-                    <section>
+                    <section className={'profile-content-grid'}>
+
+                        <Grid container spacing={0}>
+                            <Grid item xs={4}>
+                                <ProfilePostCard/>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <ProfilePostCard/>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <ProfilePostCard/>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <ProfilePostCard/>
+                            </Grid>
+                        </Grid>
 
                     </section>
                 </section>

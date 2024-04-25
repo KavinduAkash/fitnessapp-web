@@ -112,6 +112,11 @@
     color: white;
 }
 
+.profile-content > .profile-content-grid {
+    max-width: 800px;
+    margin: 5px auto;
+}
+
 @media all and (max-width: 576px) {
     .profile-head-data {
         grid-template-columns: repeat(2, 1fr);
