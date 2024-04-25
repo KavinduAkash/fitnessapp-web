@@ -75,6 +75,43 @@
     opacity: 0.8;
 }
 
+.profile-content {
+}
+
+.profile-content > .profile-content-ribon {
+    background: white;
+}
+
+.profile-content > .profile-content-ribon > div {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 800px;
+    margin: auto;
+}
+
+.profile-content > .profile-content-ribon > div > div {
+    background: white;
+    font-size: 20px;
+    text-align: center;
+    padding: 2px 0px;
+    border-bottom: 3px solid #437db0;
+    margin: 0px 4px;
+    color: #437db0;
+    transition: 800ms;
+    cursor: pointer;
+}
+
+.profile-content > .profile-content-ribon > div > div:hover {
+    background: #437db0;
+    color: white;
+    transition: 800ms;
+}
+
+.profile-content > .profile-content-ribon > div > .content-ribon-select {
+    background: #437db0;
+    color: white;
+}
+
 @media all and (max-width: 576px) {
     .profile-head-data {
         grid-template-columns: repeat(2, 1fr);

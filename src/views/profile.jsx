@@ -12,7 +12,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {Box, FormControl, InputLabel, TextField} from "@mui/material";
 
 import DatePicker from "react-datepicker";
@@ -73,7 +73,7 @@ function Profile() {
     const descriptionElementRef = React.useRef(null);
     React.useEffect(() => {
         if (open) {
-            const { current: descriptionElement } = descriptionElementRef;
+            const {current: descriptionElement} = descriptionElementRef;
             if (descriptionElement !== null) {
                 descriptionElement.focus();
             }
@@ -83,8 +83,8 @@ function Profile() {
     const loadMyProfile = () => {
         API.getMyProfileDetails().then(r => {
             console.log(r);
-            if(r.success) {
-                if(r.data.success) {
+            if (r.success) {
+                if (r.data.success) {
                     setId(r.data.body.id);
                     setFirstName(r.data.body.firstName);
                     setLastName(r.data.body.lastName);
@@ -141,7 +141,7 @@ function Profile() {
             if (uImage) {
                 URL.revokeObjectURL(uImage);
             }
-            const blob = new Blob([file], { type: file.type }); // Convert file to Blob
+            const blob = new Blob([file], {type: file.type}); // Convert file to Blob
             const url = URL.createObjectURL(blob); // Generate Blob URL
             console.log("image2: ", url);
             setUFile(file);
@@ -150,7 +150,7 @@ function Profile() {
     }
 
     const updateProfile = () => {
-        if(uImage) {
+        if (uImage) {
             updateProfilePic();
         }
         updateProfileDetails();
@@ -235,13 +235,18 @@ function Profile() {
                             {/*</div>*/}
                             {/*}*/}
 
-                            <div style={{background: `url(${image ? image : uImage ? uImage : UserVector})`, backgroundPosition: 'center', backgroundSize: 'cover', margin: 'auto'}} className={'profile-edit-pic'}>
+                            <div style={{
+                                background: `url(${image ? image : uImage ? uImage : UserVector})`,
+                                backgroundPosition: 'center',
+                                backgroundSize: 'cover',
+                                margin: 'auto'
+                            }} className={'profile-edit-pic'}>
                                 <Button
                                     component="label"
                                     role={undefined}
                                     variant="contained"
                                     tabIndex={-1}
-                                    startIcon={<CloudUploadIcon />}
+                                    startIcon={<CloudUploadIcon/>}
                                     // onClick={e => handeImage(e)}
                                 >
                                     Upload file
@@ -258,23 +263,32 @@ function Profile() {
 
                             <Box sx={{display: 'flex', marginTop: '10px'}}>
                                 <Box sx={{marginRight: '2px'}}>
-                                    <TextField id="filled-basic" value={uFirstName} label="First Name" variant="filled" onChange={e => setUFirstName(e.target.value)} />
+                                    <TextField id="filled-basic" value={uFirstName} label="First Name" variant="filled"
+                                               onChange={e => setUFirstName(e.target.value)}/>
                                 </Box>
                                 <Box sx={{marginLeft: '2px'}}>
-                                    <TextField id="filled-basic" value={uLastName} label="Last Name" variant="filled" onChange={e => setULastName(e.target.value)} />
+                                    <TextField id="filled-basic" value={uLastName} label="Last Name" variant="filled"
+                                               onChange={e => setULastName(e.target.value)}/>
                                 </Box>
                             </Box>
 
                             <Box sx={{marginTop: '10px'}}>
-                                <TextField id="filled-basic" value={email} disabled label="Email" variant="filled" sx={{width: '100%'}} />
+                                <TextField id="filled-basic" value={email} disabled label="Email" variant="filled"
+                                           sx={{width: '100%'}}/>
                             </Box>
 
-                            <Box sx={{display: 'flex', justifyContent: 'space-between', width: '100%', marginTop: '10px'}}>
-                                <Box sx={{flex:1}}>
-                                    <DatePicker class={"custom-datepicker"} selected={uDob} onChange={(date) => setUDOB(date)} />
+                            <Box sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                width: '100%',
+                                marginTop: '10px'
+                            }}>
+                                <Box sx={{flex: 1}}>
+                                    <DatePicker class={"custom-datepicker"} selected={uDob}
+                                                onChange={(date) => setUDOB(date)}/>
                                 </Box>
 
-                                <Box sx={{flex:1}}>
+                                <Box sx={{flex: 1}}>
                                     <FormControl variant="filled" sx={{width: '100%'}}>
                                         <InputLabel id="demo-simple-select-filled-label">Gender</InputLabel>
                                         <Select
@@ -308,11 +322,13 @@ function Profile() {
                             </Box>
 
                             <Box sx={{marginTop: '10px'}}>
-                                <TextField type="password" id="filled-basic" label="New Password" variant="filled" sx={{width: '100%'}} />
+                                <TextField type="password" id="filled-basic" label="New Password" variant="filled"
+                                           sx={{width: '100%'}}/>
                             </Box>
 
                             <Box sx={{marginTop: '10px'}}>
-                                <TextField type="password" id="filled-basic" label="Confirm Password" variant="filled" sx={{width: '100%'}} />
+                                <TextField type="password" id="filled-basic" label="Confirm Password" variant="filled"
+                                           sx={{width: '100%'}}/>
                             </Box>
 
                         </section>
@@ -329,13 +345,15 @@ function Profile() {
                             <Box sx={{marginTop: '10px'}}>
                                 <h3>Delete Account</h3>
                                 <Box>
-                                    <p><span style={{color: 'red'}}>Warning: </span>Deleting your account will remove all your data permanently.</p>
+                                    <p><span style={{color: 'red'}}>Warning: </span>Deleting your account will remove
+                                        all your data permanently.</p>
                                 </Box>
                             </Box>
                         </section>
 
                         <Box sx={{textAlign: 'start'}}>
-                            <Button sx={{background: 'red'}} variant="contained" onClick={handleClose}>Delete My Account</Button>
+                            <Button sx={{background: 'red'}} variant="contained" onClick={handleClose}>Delete My
+                                Account</Button>
                         </Box>
 
                     </form>
@@ -344,31 +362,52 @@ function Profile() {
             </Dialog>
 
 
-
             <Header/>
             <section>
-              {/*---- head ----  */}
-              <section className={'profile-head'}>
+                {/*---- head ----  */}
+                <section className={'profile-head'}>
 
-                  <div
-                      style={{background: `url(${UserVector})`, backgroundPosition: 'center', backgroundSize: 'cover'}}
-                      className={'profile-head-img'}>
-                  </div>
+                    <div
+                        style={{
+                            background: `url(${UserVector})`,
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover'
+                        }}
+                        className={'profile-head-img'}>
+                    </div>
 
-                  <div className={'profile-head-title mukta-bold'}>
-                      {firstName} {lastName} <span className={'profile-head-edit'} onClick={handleClickOpen('body')}><EditIcon style={{fontSize: '13px'}}/>Edit</span>
-                  </div>
+                    <div className={'profile-head-title mukta-bold'}>
+                        {firstName} {lastName} <span className={'profile-head-edit'}
+                                                     onClick={handleClickOpen('body')}><EditIcon
+                        style={{fontSize: '13px'}}/>Edit</span>
+                    </div>
 
-                  <div className={'profile-head-data'}>
+                    <div className={'profile-head-data'}>
 
-                      <div><span>Gender</span>{gender}</div>
-                      <div><span>Age</span>{age}</div>
-                      <div><span>Followers</span>200</div>
-                      <div><span>Following</span>201</div>
+                        <div><span>Gender</span>{gender}</div>
+                        <div><span>Age</span>{age}</div>
+                        <div><span>Followers</span>200</div>
+                        <div><span>Following</span>201</div>
 
-                  </div>
+                    </div>
 
-              </section>
+                </section>
+
+                {/*---- content ----  */}
+                <section className={'profile-content'}>
+                    {/*---- content ribon ----  */}
+                    <section className={'profile-content-ribon'}>
+                        <div>
+                            <div className={'content-ribon-select'}>Posts</div>
+                            <div>Meal Plans</div>
+                            <div>Worksouts</div>
+                        </div>
+                    </section>
+                    {/*---- content posts, meal plans, workspaces ----  */}
+                    <section>
+
+                    </section>
+                </section>
             </section>
         </div>
     )
