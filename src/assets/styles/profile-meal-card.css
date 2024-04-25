@@ -1,0 +1,14 @@
+.profile-meal-card {
+    background: white;
+}
+
+.profile-meal-card > .profile-meal-card-title {
+    background: #145392;
+    color: white;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.profile-meal-card > p {
+    padding: 10px;
+}

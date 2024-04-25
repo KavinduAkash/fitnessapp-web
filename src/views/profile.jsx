@@ -26,6 +26,7 @@ import * as API from "../service/api";
 import * as AgeFinder from "../utils/agefinder";
 import Swal from "sweetalert2";
 import ProfilePostCard from "../components/profile-post-card.jsx";
+import ProfileMealCard from "../components/profile-meal-card.jsx";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -65,6 +66,8 @@ function Profile() {
     const [uGender, setUGender] = useState("");
     const [uImage, setUImage] = useState(null);
     const [uFile, setUFile] = useState(null);
+
+    const [contentType, setContentType] = useState(1);
 
     const handleClickOpen = (scrollType) => () => {
         setOpen(true);
@@ -188,6 +191,10 @@ function Profile() {
     const handleClose = () => {
         updateProfile();
     };
+
+    const handleContentType = (type) => {
+        setContentType(type);
+    }
 
     useEffect(() => {
         loadMyProfile();
@@ -399,28 +406,62 @@ function Profile() {
                     {/*---- content ribon ----  */}
                     <section className={'profile-content-ribon'}>
                         <div>
-                            <div className={'content-ribon-select'}>Posts</div>
-                            <div>Meal Plans</div>
-                            <div>Worksouts</div>
+                            <div className={contentType==1 && 'content-ribon-select'} onClick={() => handleContentType(1)}>Posts</div>
+                            <div className={contentType==2 && 'content-ribon-select'} onClick={() => handleContentType(2)}>Meal Plans</div>
+                            <div className={contentType==3 && 'content-ribon-select'} onClick={() => handleContentType(3)}>Worksouts</div>
                         </div>
                     </section>
                     {/*---- content posts, meal plans, workspaces ----  */}
                     <section className={'profile-content-grid'}>
 
-                        <Grid container spacing={0}>
-                            <Grid item xs={4}>
-                                <ProfilePostCard/>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <ProfilePostCard/>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <ProfilePostCard/>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <ProfilePostCard/>
-                            </Grid>
-                        </Grid>
+                        {
+                            contentType == 1 ?
+                                <Grid container spacing={0}>
+                                    <Grid item xs={4}>
+                                        <ProfilePostCard/>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <ProfilePostCard/>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <ProfilePostCard/>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <ProfilePostCard/>
+                                    </Grid>
+                                </Grid>
+                                : contentType == 2 ?
+                                    <Grid container spacing={0}>
+                                        <Grid item xs={12}>
+                                            <ProfileMealCard/>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <ProfileMealCard/>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <ProfileMealCard/>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <ProfileMealCard/>
+                                        </Grid>
+                                    </Grid>
+                                    :
+                                    <Grid container spacing={0}>
+                                        <Grid item xs={12}>
+                                            <ProfileMealCard/>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <ProfileMealCard/>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <ProfileMealCard/>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <ProfileMealCard/>
+                                        </Grid>
+                                    </Grid>
+                        }
+
 
                     </section>
                 </section>
