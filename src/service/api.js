@@ -40,3 +40,32 @@ export async function getMyProfileDetails() {
         _prepareApiObj('get', `/user/my`, null, "no-body-auth", '')
     )
 }
+
+export async function updateMyProfilePic(data) {
+    let form = new FormData();
+    form.append("file", data)
+
+    return await Api.callApi(
+        _prepareApiObj('patch', `/user/my-pic`, form, "form", '')
+    )
+}
+
+export async function updateMyProfileDetails(data) {
+    let body = {
+        "id": data.id,
+        "firstName": data.firstName,
+        "lastName": data.lastName,
+        "dob": data.dob,
+        "email": data.email,
+        "password": null,
+        "gender": data.gender,
+        "role": "USER",
+        "visibility": data.visibility,
+        "status": data.status,
+        "profilePic": null
+    }
+
+    return await Api.callApi(
+        _prepareApiObj('put', `/user/my`, body, "json", '')
+    )
+}
