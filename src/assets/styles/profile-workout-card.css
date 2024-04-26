@@ -1,0 +1,19 @@
+.profile-workout-card {
+    margin-bottom: 10px;
+    background: white;
+}
+
+.profile-workout-card>div {
+    padding: 5px;
+}
+
+.profile-workout-card>div:first-child {
+    font-size: 20px;
+    background: #145392;
+    color: white;
+}
+
+.profile-workout-card>.running-status::before {
+    content: "🟢";
+    font-size: 10px;
+}

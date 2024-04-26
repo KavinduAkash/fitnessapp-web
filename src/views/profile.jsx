@@ -27,6 +27,7 @@ import * as AgeFinder from "../utils/agefinder";
 import Swal from "sweetalert2";
 import ProfilePostCard from "../components/profile-post-card.jsx";
 import ProfileMealCard from "../components/profile-meal-card.jsx";
+import ProfileWorkoutCard from "../components/profile-workout-card.jsx";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -448,16 +449,16 @@ function Profile() {
                                     :
                                     <Grid container spacing={0}>
                                         <Grid item xs={12}>
-                                            <ProfileMealCard/>
+                                            <ProfileWorkoutCard/>
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <ProfileMealCard/>
+                                            <ProfileWorkoutCard/>
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <ProfileMealCard/>
+                                            <ProfileWorkoutCard/>
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <ProfileMealCard/>
+                                            <ProfileWorkoutCard/>
                                         </Grid>
                                     </Grid>
                         }
