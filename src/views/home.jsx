@@ -1,12 +1,20 @@
 import React from "react";
 import Header from "../components/header.jsx";
-import {Button} from "@mui/material";
+import "../assets/styles/home.css";
+import HomePostCard from "../components/home-post-card.jsx";
 
 function Home() {
     return (
         <div>
             <Header/>
-            <Button variant="contained">Click</Button>
+            <section className={'home-content'}>
+                <HomePostCard/>
+                <HomePostCard/>
+                <HomePostCard/>
+                <HomePostCard/>
+                <HomePostCard/>
+                <HomePostCard/>
+            </section>
         </div>
     );
 }
