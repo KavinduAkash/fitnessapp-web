@@ -1,0 +1,19 @@
+.create-post-bar {
+    display: flex;
+    align-items: center;
+    margin: 50px 0px;
+}
+
+.create-post-bar > div:first-child {
+    width: 40px;
+    aspect-ratio: 1/1;
+    background: lightgray;
+    border-radius: 100%;
+    border: 1px solid #145392;
+    margin-right: 5px;
+}
+
+.create-post-bar > button {
+    width: 100%;
+    margin-left: 5px;
+}
