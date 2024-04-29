@@ -79,3 +79,9 @@ export async function resetPassword(newPassword) {
         _prepareApiObj('post', `/auth/reset`, body, "json", '')
     )
 }
+
+export async function getUsers(search) {
+    return await Api.callApi(
+        _prepareApiObj('get', `/user?search=${search}`, null, "no-body-auth", '')
+    )
+}

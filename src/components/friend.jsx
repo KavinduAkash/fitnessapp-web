@@ -1,19 +1,24 @@
 import React from 'react';
 import '../assets/styles/friend.css';
-import Button from "@mui/material/Button";
+import UserVector from "../assets/user-vector.jpeg";
 
 function Friend(props) {
 
     return(
         <div className={'friend'}>
-            <div className={'image'}
-                 style={{
-                     background: `url(${props.image})`,
-                     backgroundPosition: 'center',
-                     backgroundSize: 'cover',
-                     backgroundRepeat: 'no-repeat'
-            }}></div>
-            <div className={'name'}>{props.name}</div>
+            <div className={'friend-detail'}>
+                <div className={'image'}
+                     style={{
+                         background: `url(${props.user.profilePic ? props.user.profilePic : UserVector})`,
+                         backgroundPosition: 'center',
+                         backgroundSize: 'cover',
+                         backgroundRepeat: 'no-repeat'
+                     }}></div>
+                <div className={'name'}>{props.user.firstName + " " + props.user.lastName}</div>
+                {
+                    (props.user.isFollower || props.user.isFollowing) && <div className={'status'}>{(props.user.isFollower && props.user.isFollowing) ? "Friends" : props.user.isFollower ? "Follower" : props.user.isFollowing ? "Following": ""}</div>
+                }
+            </div>
         </div>
     )
 

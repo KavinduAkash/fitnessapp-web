@@ -65,7 +65,7 @@ function Profile() {
     const [scroll, setScroll] = React.useState('paper');
 
     // followers detail modal
-    const [openf, setOpenf] = React.useState(true);
+    const [openf, setOpenf] = React.useState(false);
     const [scrollf, setScrollf] = React.useState('paper');
 
     const [startDate, setStartDate] = useState(new Date());

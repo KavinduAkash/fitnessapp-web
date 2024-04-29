@@ -1,0 +1,16 @@
+.user-content {
+    background: white;
+    padding: 0.1px 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+.user-content-search {
+    width: fit-content;
+    margin-left: auto;
+    margin-top: 15px;
+}
+.user-content-search > span {
+    margin-right: 10px;
+    color: lightgray;
+}

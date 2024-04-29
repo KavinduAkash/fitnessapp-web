@@ -1,18 +1,35 @@
 .friend {
-    display: flex;
-    align-items: center;
     margin: 20px 0px;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
     padding: 5px;
 }
 
-.friend > .image {
+.friend:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+
+.friend > .friend-detail {
+    display: flex;
+    align-items: center;
+}
+
+.friend > .friend-detail > .image {
     width: 40px;
     aspect-ratio: 1/1;
     border-radius: 100%;
     border: 1px solid #145392;
 }
 
-.friend > .name {
+.friend > .friend-detail > .name {
     margin-left: 10px;
+}
+
+.friend > .friend-detail > .status {
+    color: gray;
+    font-size: 0.8rem;
+    margin-left: 10px;
+}
+
+.friend > .friend-detail > .status::before {
+    content: "▪️ ";
 }

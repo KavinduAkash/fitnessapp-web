@@ -8,6 +8,7 @@ import Home from "./views/home.jsx";
 import Profile from "./views/profile.jsx";
 import Signup from "./views/signup";
 import Signin from "./views/signin";
+import User from "./views/user";
 
 const appr = [
   {
@@ -25,6 +26,10 @@ const appr = [
   {
     path: "/signin",
     element: <Signin/>,
+  },
+  {
+    path: "/friends",
+    element: <User/>,
   }
 ]
 
