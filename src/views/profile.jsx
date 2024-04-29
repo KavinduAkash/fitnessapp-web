@@ -28,6 +28,7 @@ import Swal from "sweetalert2";
 import ProfilePostCard from "../components/profile-post-card.jsx";
 import ProfileMealCard from "../components/profile-meal-card.jsx";
 import ProfileWorkoutCard from "../components/profile-workout-card.jsx";
+import {useNavigate} from "react-router-dom";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -42,6 +43,8 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 function Profile() {
+
+    const navigate = useNavigate();
 
     const fileInputRef = useRef(null); // Reference to the file input element
 
@@ -69,6 +72,9 @@ function Profile() {
     const [uFile, setUFile] = useState(null);
 
     const [contentType, setContentType] = useState(1);
+
+    const[password, setPassword] = useState("");
+    const[confirmedPassword, setConfirmedPassword] = useState("");
 
     const handleClickOpen = (scrollType) => () => {
         setOpen(true);
@@ -189,9 +195,46 @@ function Profile() {
         })
     }
 
-    const handleClose = () => {
-        updateProfile();
+    const resetPassword = () => {
+        if(password===confirmedPassword) {
+            API.resetPassword(password).then(r => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your password is reset successfully! Please sign in again",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                navigate("/signin");
+            }).catch(e => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+        } else {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Passwords are not matching",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+
+    }
+
+    const handleClose = (type) => {
+        if (type==="PASSWORD_RESET") {
+            resetPassword();
+        } else {
+            updateProfile();
+        }
     };
+
 
     const handleContentType = (type) => {
         setContentType(type);
@@ -332,18 +375,18 @@ function Profile() {
 
                             <Box sx={{marginTop: '10px'}}>
                                 <TextField type="password" id="filled-basic" label="New Password" variant="filled"
-                                           sx={{width: '100%'}}/>
+                                           sx={{width: '100%'}} onChange={e => setPassword(e.target.value)}/>
                             </Box>
 
                             <Box sx={{marginTop: '10px'}}>
                                 <TextField type="password" id="filled-basic" label="Confirm Password" variant="filled"
-                                           sx={{width: '100%'}}/>
+                                           sx={{width: '100%'}} onChange={e => setConfirmedPassword(e.target.value)}/>
                             </Box>
 
                         </section>
 
                         <DialogActions>
-                            <Button variant="contained" onClick={handleClose}>Reset Password</Button>
+                            <Button variant="contained" onClick={() => handleClose("PASSWORD_RESET")}>Reset Password</Button>
                         </DialogActions>
 
                     </form>

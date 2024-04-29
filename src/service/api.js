@@ -69,3 +69,13 @@ export async function updateMyProfileDetails(data) {
         _prepareApiObj('put', `/user/my`, body, "json", '')
     )
 }
+
+export async function resetPassword(newPassword) {
+    let body = {
+        "password": newPassword
+    }
+
+    return await Api.callApi(
+        _prepareApiObj('post', `/auth/reset`, body, "json", '')
+    )
+}
