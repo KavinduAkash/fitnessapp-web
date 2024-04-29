@@ -1,0 +1,18 @@
+.friend {
+    display: flex;
+    align-items: center;
+    margin: 20px 0px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    padding: 5px;
+}
+
+.friend > .image {
+    width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    border: 1px solid #145392;
+}
+
+.friend > .name {
+    margin-left: 10px;
+}

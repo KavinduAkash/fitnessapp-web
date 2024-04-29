@@ -29,6 +29,7 @@ import ProfilePostCard from "../components/profile-post-card.jsx";
 import ProfileMealCard from "../components/profile-meal-card.jsx";
 import ProfileWorkoutCard from "../components/profile-workout-card.jsx";
 import {useNavigate} from "react-router-dom";
+import Friend from "../components/friend.jsx";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -59,8 +60,14 @@ function Profile() {
     const [status, setStatus] = useState("ACTIVE");
     const [image, setImage] = useState(null);
 
+    // profile detail modal
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
+
+    // followers detail modal
+    const [openf, setOpenf] = React.useState(true);
+    const [scrollf, setScrollf] = React.useState('paper');
+
     const [startDate, setStartDate] = useState(new Date());
 
 
@@ -233,6 +240,10 @@ function Profile() {
         } else {
             updateProfile();
         }
+    };
+
+    const handleClosef = (type) => {
+
     };
 
 
@@ -413,6 +424,35 @@ function Profile() {
                 </DialogContent>
             </Dialog>
 
+
+
+            <Dialog
+                open={openf}
+                onClose={handleClosef}
+                scroll={scrollf}
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
+            >
+                <DialogTitle id="scroll-dialog-title">Followers</DialogTitle>
+                <DialogContent dividers={scroll === 'paper'}>
+
+                    <div className={'profile-followers-ribon'}>
+                        <div className={'selected'}>Followings</div>
+                        <div>Followers</div>
+                    </div>
+
+                    <div className={'profile-followers-content'}>
+
+                        <Friend image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'} name={"Jhone white"}/>
+                        <Friend image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'} name={"Jhone white"}/>
+                        <Friend image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'} name={"Jhone white"}/>
+                        <Friend image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'} name={"Jhone white"}/>
+                        <Friend image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'} name={"Jhone white"}/>
+
+                    </div>
+
+                </DialogContent>
+            </Dialog>
 
             <Header/>
             <section>
