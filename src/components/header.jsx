@@ -15,11 +15,41 @@ import AdbIcon from '@mui/icons-material/Adb';
 import Logo from '../assets/fitness-social-logo.png';
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import AppBarTheme from "../theme/appbar-theme.js";
+import {useNavigate} from "react-router-dom";
+import {ACCESS_TOKEN, REFRESH_TOKEN} from "../utils/const.js";
 
-const pages = ['Feeds', 'Followers', 'Workouts', 'Meal Plans'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = [
+    {
+        lbl: "Feeds",
+        path: "/"
+    },
+    {
+        lbl: "Friends",
+        path: "/friends"
+    },
+    {
+        lbl: "Meal Plans",
+        path: "/meal"
+    },
+    {
+        lbl: "Workout Plans",
+        path: "/workout"
+    }
+];
+const settings = [
+    {
+        lbl: "Account",
+        path: "/profile"
+    },
+    {
+        lbl: "Logout",
+        path: "/logout"
+    }
+];
 
 function Header() {
+
+    const navigate = useNavigate();
 
     // --------------------- header ---------------------
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -32,12 +62,20 @@ function Header() {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+    const handleCloseNavMenu = (path) => {
+        navigate(path);
     };
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
+    const logout = () => {
+        localStorage.removeItem(ACCESS_TOKEN);
+        localStorage.removeItem(REFRESH_TOKEN);
+        navigate("/signin");
+    }
+
+    const handleCloseUserMenu = (path) => {
+        path === "/logout" ?
+            logout() :
+            navigate(path);
     };
     // --------------------- header ---------------------
 
@@ -49,7 +87,7 @@ function Header() {
                 <AppBar position="static">
                     <Container maxWidth="sm">
                         <Toolbar disableGutters>
-                            <Box sx={{ display: { xs: 'none', md: 'flex' }}}>
+                            <Box sx={{display: {xs: 'none', md: 'flex'}}}>
                                 <img src={Logo} alt="" width={100}/>
                             </Box>
 
@@ -83,15 +121,16 @@ function Header() {
                                     }}
                                 >
                                     {pages.map((page) => (
-                                        <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                            <Typography textAlign="center" sx={{color: '#000000'}}>{page}</Typography>
+                                        <MenuItem key={page.lbl} onClick={() => handleCloseNavMenu(page.path)}>
+                                            <Typography textAlign="center"
+                                                        sx={{color: '#000000'}}>{page.lbl}</Typography>
                                         </MenuItem>
                                     ))}
                                 </Menu>
                             </Box>
 
 
-                            <Box sx={{ display: { xs: 'flex', md: 'none' }}}>
+                            <Box sx={{display: {xs: 'flex', md: 'none'}}}>
                                 <img src={Logo} alt="" width={100}/>
                             </Box>
 
@@ -115,11 +154,11 @@ function Header() {
                             <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}, justifyContent: 'center'}}>
                                 {pages.map((page) => (
                                     <Button
-                                        key={page}
-                                        onClick={handleCloseNavMenu}
+                                        key={page.lbl}
+                                        onClick={() => handleCloseNavMenu(page.path)}
                                         sx={{my: 2, color: 'black', display: 'block'}}
                                     >
-                                        {page}
+                                        {page.lbl}
                                     </Button>
                                 ))}
                             </Box>
@@ -147,8 +186,8 @@ function Header() {
                                     onClose={handleCloseUserMenu}
                                 >
                                     {settings.map((setting) => (
-                                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                            <Typography textAlign="center">{setting}</Typography>
+                                        <MenuItem key={setting.lbl} onClick={() => handleCloseUserMenu(setting.path)}>
+                                            <Typography textAlign="center">{setting.lbl}</Typography>
                                         </MenuItem>
                                     ))}
                                 </Menu>

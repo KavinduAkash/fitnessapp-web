@@ -33,6 +33,7 @@ import Friend from "../components/friend.jsx";
 
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
+import {ACCESS_TOKEN} from "../utils/const.js";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -331,8 +332,19 @@ function Profile() {
     }
 
     useEffect(() => {
+        const accessToken = localStorage.getItem(ACCESS_TOKEN);
+        if(!accessToken) {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Please sign in",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            navigate("/signin")
+        }
+
         if(idx) {
-            console.log("X: ", idx);
             loadProfile();
         } else {
             loadMyProfile();

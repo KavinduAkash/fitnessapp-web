@@ -4,6 +4,8 @@ import Header from "../components/header.jsx";
 import "../assets/styles/user.css";
 import {Input} from "@mui/material";
 import * as API from "../service/api.js";
+import {ACCESS_TOKEN} from "../utils/const.js";
+import Swal from "sweetalert2";
 
 const ariaLabel = { 'aria-label': 'description' };
 
@@ -22,6 +24,17 @@ function User() {
     }
 
     useEffect(() => {
+        const accessToken = localStorage.getItem(ACCESS_TOKEN);
+        if(!accessToken) {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Please sign in",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            navigate("/signin")
+        }
         getUser();
     }, [search]);
 

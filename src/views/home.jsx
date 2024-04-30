@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Header from "../components/header.jsx";
 import "../assets/styles/home.css";
 import HomePostCard from "../components/home-post-card.jsx";
@@ -15,8 +15,13 @@ import MenuItem from "@mui/material/MenuItem";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
 import ImageUploading from "react-images-uploading";
+import {ACCESS_TOKEN} from "../utils/const.js";
+import Swal from "sweetalert2";
+import {useNavigate} from "react-router-dom";
 
 function Home() {
+
+    const navigate = useNavigate();
 
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
@@ -33,6 +38,21 @@ function Home() {
     const handleClose = () => {
         setOpen(!open);
     };
+
+    // handle access
+    useEffect(() => {
+        const accessToken = localStorage.getItem(ACCESS_TOKEN);
+        if(!accessToken) {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Please sign in",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            navigate("/signin")
+        }
+    },[]);
 
     return (
         <div>
