@@ -1,11 +1,14 @@
 import React from 'react';
 import '../assets/styles/friend.css';
 import UserVector from "../assets/user-vector.jpeg";
+import {useNavigate} from "react-router-dom";
 
 function Friend(props) {
 
+    let navigate = useNavigate();
+
     return(
-        <div className={'friend'}>
+        <div className={'friend'} onClick={() => navigate(`/profile/${props.user.id}`)}>
             <div className={'friend-detail'}>
                 <div className={'image'}
                      style={{

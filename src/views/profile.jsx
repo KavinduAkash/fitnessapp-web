@@ -28,8 +28,11 @@ import Swal from "sweetalert2";
 import ProfilePostCard from "../components/profile-post-card.jsx";
 import ProfileMealCard from "../components/profile-meal-card.jsx";
 import ProfileWorkoutCard from "../components/profile-workout-card.jsx";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Friend from "../components/friend.jsx";
+
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -46,6 +49,7 @@ const VisuallyHiddenInput = styled('input')({
 function Profile() {
 
     const navigate = useNavigate();
+    const {idx} = useParams();
 
     const fileInputRef = useRef(null); // Reference to the file input element
 
@@ -59,6 +63,9 @@ function Profile() {
     const [visibility, setVisibility] = useState("PUBLIC");
     const [status, setStatus] = useState("ACTIVE");
     const [image, setImage] = useState(null);
+    const [myProfile, setMyProfile] = useState(false);
+    const [isFollower, setIsFollower] = useState(false);
+    const [isFollowing, setIsFollowing] = useState(false);
 
     // profile detail modal
     const [open, setOpen] = React.useState(false);
@@ -113,6 +120,7 @@ function Profile() {
                     setVisibility(r.data.body.visibility);
                     setStatus(r.data.body.status);
                     setImage(r.data.body.profilePic);
+                    setMyProfile(true);
 
                     setUFirstName(r.data.body.firstName);
                     setULastName(r.data.body.lastName);
@@ -136,6 +144,77 @@ function Profile() {
                     timer: 1500
                 });
             }
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
+
+    const loadProfile = () => {
+        API.getProfileDetails(idx).then(r => {
+            console.log(r);
+            if (r.success) {
+                if (r.data.success) {
+                    setId(r.data.body.id);
+                    setFirstName(r.data.body.firstName);
+                    setLastName(r.data.body.lastName);
+                    setDOB(new Date(r.data.body.dob));
+                    setAge(AgeFinder.findAge(r.data.body.dob.split("T")[0]));
+                    setGender(r.data.body.gender);
+                    setEmail(r.data.body.email);
+                    setVisibility(r.data.body.visibility);
+                    setStatus(r.data.body.status);
+                    setImage(r.data.body.profilePic);
+                    setMyProfile(false);
+
+                    setIsFollower(r.data.body.follower);
+                    setIsFollowing(r.data.body.following);
+
+                    if(r.data.body.myProfile) {
+                        setUFirstName(r.data.body.firstName);
+                        setULastName(r.data.body.lastName);
+                        setUDOB(new Date(r.data.body.dob));
+                        setUGender(r.data.body.gender);
+                        setMyProfile(true);
+                    }
+
+                } else {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Sorry!, something went wrong",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            } else {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
+
+    const followUser = (follow) => {
+        API.followUser(idx, follow).then(r => {
+            loadProfile();
         }).catch(e => {
             Swal.fire({
                 position: "top-end",
@@ -252,7 +331,12 @@ function Profile() {
     }
 
     useEffect(() => {
-        loadMyProfile();
+        if(idx) {
+            console.log("X: ", idx);
+            loadProfile();
+        } else {
+            loadMyProfile();
+        }
     }, [])
 
     return (
@@ -469,7 +553,7 @@ function Profile() {
                     </div>
 
                     <div className={'profile-head-title mukta-bold'}>
-                        {firstName} {lastName} <span className={'profile-head-edit'}
+                        {firstName} {lastName} <span className={'profile-head-edit'} style={myProfile ? {} : {display: 'none'}}
                                                      onClick={handleClickOpen('body')}><EditIcon
                         style={{fontSize: '13px'}}/>Edit</span>
                     </div>
@@ -482,6 +566,15 @@ function Profile() {
                         <div><span>Following</span>201</div>
 
                     </div>
+
+                    {!myProfile && <div className={'follow-btn'}>
+
+                        {isFollowing ?
+                            <Button variant={'outlined'} onClick={() => followUser(false)}><GroupRemoveIcon/><div>Unfollow</div></Button> :
+                            <Button variant={'contained'} onClick={() => followUser(true)}><GroupAddIcon/><div>Follow</div></Button>
+                        }
+
+                    </div> }
 
                 </section>
 

@@ -41,6 +41,13 @@ export async function getMyProfileDetails() {
     )
 }
 
+export async function getProfileDetails(id) {
+    return await Api.callApi(
+        _prepareApiObj('get', `/user/id/${id}`, null, "no-body-auth", '')
+    )
+}
+
+
 export async function updateMyProfilePic(data) {
     let form = new FormData();
     form.append("file", data)
@@ -83,5 +90,16 @@ export async function resetPassword(newPassword) {
 export async function getUsers(search) {
     return await Api.callApi(
         _prepareApiObj('get', `/user?search=${search}`, null, "no-body-auth", '')
+    )
+}
+
+
+export async function followUser(id, follow) {
+    let body = {
+        "followerId": id,
+        "follower": follow
+    }
+    return await Api.callApi(
+        _prepareApiObj('patch', `/user/follow`, body, "json", '')
     )
 }

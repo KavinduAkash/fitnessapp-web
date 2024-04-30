@@ -30,7 +30,11 @@ const appr = [
   {
     path: "/friends",
     element: <User/>,
-  }
+  },
+  {
+    path: "/profile/:idx",
+    element: <Profile/>,
+  },
 ]
 
 function App() {
