@@ -33,7 +33,7 @@ import Friend from "../components/friend.jsx";
 
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
-import {ACCESS_TOKEN} from "../utils/const.js";
+import {ACCESS_TOKEN, REFRESH_TOKEN} from "../utils/const.js";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -322,6 +322,42 @@ function Profile() {
         }
     };
 
+    const deleteAccount = () => {
+
+        Swal.fire({
+            title: "Are you sure to delete your account?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                API.deleteAccount().then(r => {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Your account deleted successfully",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    localStorage.removeItem(ACCESS_TOKEN);
+                    localStorage.removeItem(REFRESH_TOKEN);
+                    navigate("/signup");
+                }).catch(e => {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Sorry!, something went wrong",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                })
+            }
+        });
+    }
+
     const handleClosef = (type) => {
 
     };
@@ -511,7 +547,7 @@ function Profile() {
                         </section>
 
                         <Box sx={{textAlign: 'start'}}>
-                            <Button sx={{background: 'red'}} variant="contained" onClick={handleClose}>Delete My
+                            <Button sx={{background: 'red'}} variant="contained" onClick={deleteAccount}>Delete My
                                 Account</Button>
                         </Box>
 

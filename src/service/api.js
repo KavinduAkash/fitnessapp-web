@@ -103,3 +103,9 @@ export async function followUser(id, follow) {
         _prepareApiObj('patch', `/user/follow`, body, "json", '')
     )
 }
+
+export async function deleteAccount() {
+    return await Api.callApi(
+        _prepareApiObj('delete', `/user/my`, null, "no-body-auth", '')
+    )
+}
