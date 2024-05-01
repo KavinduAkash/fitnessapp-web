@@ -5,7 +5,8 @@ import * as API from "../service/api";
 import Swal from 'sweetalert2';
 import {useNavigate} from "react-router-dom";
 import * as emailValidator from "../utils/validators/email.validator";
-import {ACCESS_TOKEN, REFRESH_TOKEN} from "../utils/const.js";
+import {ACCESS_TOKEN, PROFILE_ID, REFRESH_TOKEN} from "../utils/const.js";
+import * as AgeFinder from "../utils/agefinder.js";
 
 function SignIn() {
 
@@ -33,6 +34,43 @@ function SignIn() {
                 }):
                 call_login();
     }
+
+    const loadProfile = () => {
+        API.getMyProfileDetails().then(r => {
+            console.log(r);
+            if (r.success) {
+                if (r.data.success) {
+                    localStorage.setItem(PROFILE_ID, r.data.body.id);
+                    navigate("/");
+                } else {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Sorry!, something went wrong",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            } else {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
+
     const call_login = () => {
         API.login({email: email, password: password}).then(r => {
             // true
@@ -42,7 +80,7 @@ function SignIn() {
                     // success
                     localStorage.setItem(ACCESS_TOKEN, r.data.token);
                     localStorage.setItem(REFRESH_TOKEN, r.data.refreshToken);
-                    navigate("/profile");
+                    loadProfile();
                 } else {
                     // error
                     Swal.fire({

@@ -123,3 +123,37 @@ export async function createPost(data) {
         _prepareApiObj('post', `/post`, form, "form", '')
     )
 }
+
+export async function getPosts() {
+    return await Api.callApi(
+        _prepareApiObj('get', `/post/feed`, null, "no-body-auth", '')
+    )
+}
+
+export async function likePost(id) {
+    return await Api.callApi(
+        _prepareApiObj('patch', `/post/like/${id}`, null, "no-body-auth", '')
+    )
+}
+
+export async function addComment(id, comment) {
+    let body = {
+        "postId": id,
+        "comment": comment
+    }
+    return await Api.callApi(
+        _prepareApiObj('post', `/post/comment`, body, "json", '')
+    )
+}
+
+export async function getPostComments(postId) {
+    return await Api.callApi(
+        _prepareApiObj('get', `/post/comment/post/${postId}`, null, "no-body-auth", '')
+    )
+}
+
+export async function deleteComment(id) {
+    return await Api.callApi(
+        _prepareApiObj('delete', `/post/comment/${id}`, null, "no-body-auth", '')
+    )
+}

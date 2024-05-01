@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
 import "../assets/styles/home-post-card.css";
@@ -7,6 +7,8 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import * as API from "../service/api";
+import Swal from "sweetalert2";
 
 const images = [
     "https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
@@ -14,16 +16,48 @@ const images = [
     "https://images.unsplash.com/photo-1536987333706-fc9adfb10d91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
 ];
 
-function HomePostCard() {
+function HomePostCard(props) {
+
+    const[post, setPost] = useState({});
+
+    const likePost = () => {
+        API.likePost(props.data.id).then(r => {
+            console.log(r)
+            if(!r.data.success) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong2",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } else {
+                // props.data.myLike = true;
+                setPost(r.data.body);
+            }
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong3",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
+
+    useEffect(() => {
+        setPost(props.data);
+    },[])
 
     return(
         <div className={'home-post-card'}>
             <div className={'home-post-card-header'}>
                 <div></div>
-                <div>Siril Aiya</div>
+                <div>{`${post.user?.firstName} ${post.user?.lastName}`}</div>
             </div>
             <div className={'home-post-card-description'}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi, beatae eaque error expedita, fugit illum maiores minus nesciunt non odit officia, quidem temporibus ut. Aliquam consectetur dolores nam quisquam sit!
+                {post.description}
             </div>
             <div className={'home-post-card-content'}>
                 <Slide>
@@ -46,12 +80,12 @@ function HomePostCard() {
             </div>
             <div className={'home-post-card-footer'}>
                 <div className={'home-post-card-footer-react'}>
-                    <div>100 Likes</div>
-                    <div>20 Comments</div>
+                    <div>{post.likes?.length} Likes</div>
+                    <div>{post.comments?.length} Comments</div>
                 </div>
                 <div className={'home-post-card-footer-action'}>
-                    <Button variant="text"><ThumbUpOffAltIcon/>&nbsp;Like</Button>
-                    <Button variant="text"><ChatBubbleOutlineIcon/>&nbsp;Comment</Button>
+                    <Button variant="text" onClick={likePost}>{post.myLike ? <ThumbUpIcon/> : <ThumbUpOffAltIcon/>}&nbsp;Like</Button>
+                    <Button variant="text" onClick={() => props.openComments(post)}><ChatBubbleOutlineIcon/>&nbsp;Comment</Button>
                 </div>
             </div>
         </div>

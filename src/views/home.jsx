@@ -23,6 +23,7 @@ import PermMediaIcon from '@mui/icons-material/PermMedia';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import * as API from "../service/api";
+import Comment from "../components/comment.jsx";
 
 function Home() {
 
@@ -31,8 +32,15 @@ function Home() {
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState('paper');
 
+    const [open2, setOpen2] = React.useState(false);
+    const [scroll2, setScroll2] = React.useState('paper');
+
     const [images, setImages] = React.useState([]);
     const [note, setNote] = React.useState("");
+
+    const [posts, setPosts] = React.useState([]);
+    const [currentPost, setCurrentPost] = React.useState(null);
+
     const maxNumber = 3;
     const onChange = (imageList, addUpdateIndex) => {
         // data for submit
@@ -43,6 +51,10 @@ function Home() {
 
     const handleClose = () => {
         setOpen(!open);
+    };
+
+    const handleClose2= () => {
+        setOpen2(!open2);
     };
 
     // handle access
@@ -78,6 +90,21 @@ function Home() {
         setImages([...img])
     }
 
+    const getPosts = () => {
+        API.getPosts().then(r => {
+            console.log(r);
+            setPosts(r.data.body)
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
+    
     const createPost = () => {
         API.createPost({files: images, note: note}).then(r => {
             if(r.data.success) {
@@ -110,6 +137,15 @@ function Home() {
             });
         })
     }
+
+    const openComments = (post) => {
+        setCurrentPost(post);
+        setOpen2(true);
+    }
+
+    useEffect(() => {
+        getPosts();
+    }, []);
 
     return (
         <div>
@@ -211,17 +247,31 @@ function Home() {
             </Dialog>
 
 
+            <Dialog
+                open={open2}
+                onClose={handleClose2}
+                scroll={scroll2}
+                aria-labelledby="scroll-dialog-title2"
+                aria-describedby="scroll-dialog-description2"
+                minWidth={"lg"}
+            >
+                <DialogTitle id="scroll-dialog-title">Comments</DialogTitle>
+                <DialogContent dividers={scroll === 'paper'}>
+
+                    <Comment post={currentPost}/>
+
+                </DialogContent>
+            </Dialog>
+
             <Header/>
             <section className={'home-content'}>
 
                 <CreatePostBar update={handleClose}/>
 
-                <HomePostCard/>
-                <HomePostCard/>
-                <HomePostCard/>
-                <HomePostCard/>
-                <HomePostCard/>
-                <HomePostCard/>
+                {
+                    posts.map((post, index) =>  <HomePostCard data={post} openComments={openComments}/>)
+                }
+
             </section>
         </div>
     );

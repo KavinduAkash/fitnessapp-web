@@ -1,0 +1,67 @@
+.comment-container {
+    position: relative;
+}
+
+.comment-container > .comment-card {
+    width: 400px;
+    max-width: 500px;
+    background: #edf2ff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+.comment-container > .comment-card > div {
+    display: flex;
+    align-items: center;
+}
+
+.comment-container > .comment-card > div > div:first-child {
+    width: 30px;
+    aspect-ratio: 1/1;
+    border: 1px solid #145392;
+    border-radius: 100px;
+    margin-right: 10px;
+}
+
+.comment-container > .comment-card > div > div:nth-child(2) {
+    margin-right: 10px;
+}
+
+.comment-container > .comment-card > div > div:last-child {
+    font-size: 10px;
+    color: gray;
+}
+
+.comment-container > .comment-card > div > div:last-child::before {
+    content: "▪️ ";
+}
+
+.comment-container > .comment-card > p {
+
+}
+
+.comment-action {
+    width: 100%;
+}
+.comment-action > div {
+    width: 100%;
+}
+
+.delete-comment {
+   justify-content: end;
+    color: red;
+    font-size: 15px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.delete-comment>span:hover {
+    color: darkred;
+}
+
+@media all and (max-width: 500px){
+    .comment-container > .comment-card {
+        width: 80vw;
+    }
+}
