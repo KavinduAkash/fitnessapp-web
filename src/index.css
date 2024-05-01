@@ -6,3 +6,7 @@
 .swal2-container {
     z-index: 99999!important;
 }
+
+.post-video {
+    min-width: 500px;
+}

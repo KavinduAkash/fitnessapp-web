@@ -24,6 +24,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import * as API from "../service/api";
 import Comment from "../components/comment.jsx";
+import ReactPlayer from "react-player";
 
 function Home() {
 
@@ -34,6 +35,10 @@ function Home() {
 
     const [open2, setOpen2] = React.useState(false);
     const [scroll2, setScroll2] = React.useState('paper');
+
+    const [open3, setOpen3] = React.useState(true);
+    const [scroll3, setScroll3] = React.useState('paper');
+    const [video, setVideo] = React.useState('');
 
     const [images, setImages] = React.useState([]);
     const [note, setNote] = React.useState("");
@@ -55,6 +60,10 @@ function Home() {
 
     const handleClose2= () => {
         setOpen2(!open2);
+    };
+
+    const handleClose3= () => {
+        setOpen3(!open3);
     };
 
     // handle access
@@ -141,6 +150,11 @@ function Home() {
     const openComments = (post) => {
         setCurrentPost(post);
         setOpen2(true);
+    }
+
+    const openVideo = (video) => {
+        setVideo(video);
+        setOpen3(true);
     }
 
     useEffect(() => {
@@ -263,13 +277,31 @@ function Home() {
                 </DialogContent>
             </Dialog>
 
+            <Dialog
+                open={open3}
+                onClose={handleClose3}
+                scroll={scroll3}
+                aria-labelledby="scroll-dialog-title3"
+                aria-describedby="scroll-dialog-description3"
+                minWidth={"lg"}
+            >
+                <DialogTitle id="scroll-dialog-title">Video</DialogTitle>
+                <DialogContent dividers={scroll === 'paper'}>
+
+                    <div className={'post-video'}>
+                        <ReactPlayer width={'100%'}  url={video} />
+                    </div>
+
+                </DialogContent>
+            </Dialog>
+
             <Header/>
             <section className={'home-content'}>
 
                 <CreatePostBar update={handleClose}/>
 
                 {
-                    posts.map((post, index) =>  <HomePostCard data={post} openComments={openComments}/>)
+                    posts.map((post, index) =>  <HomePostCard data={post} openComments={openComments} openVideo={openVideo}/>)
                 }
 
             </section>

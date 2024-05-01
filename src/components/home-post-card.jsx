@@ -9,6 +9,9 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import * as API from "../service/api";
 import Swal from "sweetalert2";
+import ReactPlayer from "react-player";
+import {videoExtensions} from "../utils/fileExtentions";
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 
 const images = [
     "https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
@@ -19,6 +22,7 @@ const images = [
 function HomePostCard(props) {
 
     const[post, setPost] = useState({});
+    const[postImages, setPostImages] = useState([]);
 
     const likePost = () => {
         API.likePost(props.data.id).then(r => {
@@ -48,6 +52,8 @@ function HomePostCard(props) {
 
     useEffect(() => {
         setPost(props.data);
+        console.log(props.data.description, ": ", props.data.images);
+        setPostImages(props.data.images)
     },[])
 
     return(
@@ -61,21 +67,19 @@ function HomePostCard(props) {
             </div>
             <div className={'home-post-card-content'}>
                 <Slide>
-                    <div className="each-slide-effect">
-                        <div style={{ 'backgroundImage': `url(${images[0]})` }}>
-                            <div>1/3</div>
-                        </div>
-                    </div>
-                    <div className="each-slide-effect">
-                        <div style={{ 'backgroundImage': `url(${images[1]})` }}>
-                            <div>2/3</div>
-                        </div>
-                    </div>
-                    <div className="each-slide-effect">
-                        <div style={{ 'backgroundImage': `url(${images[2]})` }}>
-                            <div>3/3</div>
-                        </div>
-                    </div>
+                    {
+                        postImages.map((r, index) =>
+                        {
+                            console.log(videoExtensions.includes(r.url.split(".")[r.url.split(".").length - 1]));
+                            return <div className="each-slide-effect">
+                                <div style={{ 'backgroundImage': `url(${r.url})` }}>
+                                    <div>{index+1}/{postImages.length}</div>
+                                    {videoExtensions.includes(r.url.split(".")[r.url.split(".").length - 1]) && <span><Button variant={'outlined'} onClick={() => props.openVideo(r.url)}><PlayCircleOutlineIcon/>Play</Button></span>}
+                                </div>
+                            </div>}
+                        )
+
+                    }
                 </Slide>
             </div>
             <div className={'home-post-card-footer'}>
