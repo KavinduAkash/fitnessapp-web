@@ -109,3 +109,17 @@ export async function deleteAccount() {
         _prepareApiObj('delete', `/user/my`, null, "no-body-auth", '')
     )
 }
+
+export async function createPost(data) {
+    let form = new FormData();
+    let file = data.files;
+    form.append(`file1`, file[0]?file[0]:null)
+    form.append(`file2`, file[1]?file[1]:null)
+    form.append(`file3`, file[2]?file[2]:null)
+    form.append(`file4`, file[3]?file[3]:null)
+    form.append("note", data.note);
+
+    return await Api.callApi(
+        _prepareApiObj('post', `/post`, form, "form", '')
+    )
+}
