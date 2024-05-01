@@ -25,6 +25,15 @@
     color: white;
 }
 
+.home-post-card > .home-post-card-header > div:nth-child(3) > button {
+    color: white;
+    border: 1px solid white;
+    margin-left: 20px;
+}
+.home-post-card > .home-post-card-header > div:nth-child(3) > button > svg {
+    font-size: 15px;
+}
+
 .home-post-card > .home-post-card-description {
     background: white;
     padding: 10px 5px;

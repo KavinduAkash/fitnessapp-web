@@ -12,6 +12,8 @@ import Swal from "sweetalert2";
 import ReactPlayer from "react-player";
 import {videoExtensions} from "../utils/fileExtentions";
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import EditIcon from '@mui/icons-material/Edit';
+import {PROFILE_ID} from "../utils/const.js";
 
 const images = [
     "https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
@@ -21,6 +23,7 @@ const images = [
 
 function HomePostCard(props) {
 
+    const [myPost, setMyPost] = useState(false);
     const[post, setPost] = useState({});
     const[postImages, setPostImages] = useState([]);
 
@@ -50,10 +53,19 @@ function HomePostCard(props) {
         })
     }
 
+    const updatePost = () => {
+        props.updatePost({
+            id: post.id,
+            images: post.images,
+            note: post.description
+        })
+    }
+
     useEffect(() => {
         setPost(props.data);
         console.log(props.data.description, ": ", props.data.images);
         setPostImages(props.data.images)
+        setMyPost(+localStorage.getItem(PROFILE_ID)===props.data.user.id);
     },[])
 
     return(
@@ -61,6 +73,7 @@ function HomePostCard(props) {
             <div className={'home-post-card-header'}>
                 <div></div>
                 <div>{`${post.user?.firstName} ${post.user?.lastName}`}</div>
+                {myPost && <div><Button variant={'outlined'} size={'small'} onClick={updatePost}><EditIcon/>Edit</Button></div>}
             </div>
             <div className={'home-post-card-description'}>
                 {post.description}

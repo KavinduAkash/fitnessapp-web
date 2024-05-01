@@ -36,12 +36,19 @@ function Home() {
     const [open2, setOpen2] = React.useState(false);
     const [scroll2, setScroll2] = React.useState('paper');
 
-    const [open3, setOpen3] = React.useState(true);
+    const [open3, setOpen3] = React.useState(false);
     const [scroll3, setScroll3] = React.useState('paper');
     const [video, setVideo] = React.useState('');
 
+    const [open4, setOpen4] = React.useState(true);
+    const [scroll4, setScroll4] = React.useState('paper');
+
     const [images, setImages] = React.useState([]);
     const [note, setNote] = React.useState("");
+
+    const [imagesu, setImagesu] = React.useState([]);
+    const [noteu, setNoteu] = React.useState("");
+    const [postIdu, setPostIdu] = React.useState(0);
 
     const [posts, setPosts] = React.useState([]);
     const [currentPost, setCurrentPost] = React.useState(null);
@@ -64,6 +71,10 @@ function Home() {
 
     const handleClose3= () => {
         setOpen3(!open3);
+    };
+
+    const handleClose4= () => {
+        setOpen4(!open4);
     };
 
     // handle access
@@ -93,10 +104,34 @@ function Home() {
         // }
     }
 
+    const uploadFileu = async () => {
+        const filex = await getFile();
+        let img = imagesu;
+        setImagesu([...img, filex])
+
+        console.log(images)
+        // if(file) {
+        //     await uploadFilesTo("http://example.com", file);
+        // }
+    }
+
     const removeFile = (index) => {
         let img = images;
         img.splice(index, 1);
         setImages([...img])
+    }
+
+    const removeFileu = (index) => {
+        let img = imagesu;
+        img.splice(index, 1);
+        setImagesu([...img])
+    }
+
+    const setPostUpdateData = (data) => {
+        setPostIdu(data.id);
+        setImagesu(data.images);
+        setNoteu(data.note);
+        setOpen4(true);
     }
 
     const getPosts = () => {
@@ -295,13 +330,70 @@ function Home() {
                 </DialogContent>
             </Dialog>
 
+
+
+            <Dialog
+                open={open4}
+                onClose={handleClose4}
+                scroll={scroll4}
+                aria-labelledby="scroll-dialog-title4"
+                aria-describedby="scroll-dialog-description4"
+                minWidth={"lg"}
+            >
+                <DialogTitle id="scroll-dialog-title">Edit post</DialogTitle>
+                <DialogContent dividers={scroll === 'paper'}>
+                    <div className={'image-dropper-container'}>
+                        <button className={"image-dropper"} onClick={uploadFileu} disabled={imagesu.length>=4 ?true:false}>
+                            <div className={"image-dropper-content"}>
+                                <div>{`Select your media `}</div><PermMediaIcon/><div>{` ( ${imagesu.length}/4 )`}</div>
+                            </div>
+                        </button>
+                    </div>
+
+                    {imagesu.length > 0 && <div style={{margin: "10px 0px"}}>
+                        <Grid container spacing={1}>
+                            {
+                                imagesu.map((file, index) => {
+                                    console.log("tt: ", file.url)
+                                    console.log("tt: ", typeof file)
+                                    let fff = file.url ? file : URL.createObjectURL(file);
+                                    // return <img src={URL.createObjectURL(file)} alt="" width={'100px'}/>
+                                    return <Grid item xs={3} key={index}>
+                                        <div style={{background: `url(${fff})`, backgroundPosition: 'center', backgroundSize: 'cover'}} className={'image-block'}>
+                                            {file.type==="video/mp4" && <div className={'image-block-video'}><PlayCircleOutlineIcon/></div>}
+                                            <div className={'image-block-remove'} onClick={() => removeFileu(index)}><HighlightOffIcon/></div>
+                                        </div>
+                                    </Grid>
+                                })
+                            }
+                        </Grid>
+                    </div>}
+
+                    <div className={'post-description'}>
+                        <TextField
+                            placeholder="Enter post description"
+                            multiline
+                            rows={5}
+                            maxRows={4}
+                            value={noteu}
+                            onChange={e => setNoteu(e.target.value)}
+                        />
+                    </div>
+
+                    <div style={{textAlign: 'end', marginTop: '20px'}}>
+                        <Button variant={'contained'} onClick={createPost}>Update</Button>
+                    </div>
+
+                </DialogContent>
+            </Dialog>
+
             <Header/>
             <section className={'home-content'}>
 
                 <CreatePostBar update={handleClose}/>
 
                 {
-                    posts.map((post, index) =>  <HomePostCard data={post} openComments={openComments} openVideo={openVideo}/>)
+                    posts.map((post, index) =>  <HomePostCard data={post} openComments={openComments} openVideo={openVideo} updatePost={setPostUpdateData}/>)
                 }
 
             </section>
