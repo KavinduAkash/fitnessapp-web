@@ -74,3 +74,7 @@ text-align: center;
 .profile-meal-card > .profile-meal-card-title > div:nth-child(3) > button > svg {
     font-size: 15px;
 }
+
+.workout-card-content {
+    padding: 0px 15px 15px 15px;
+}

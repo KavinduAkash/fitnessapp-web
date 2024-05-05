@@ -213,3 +213,52 @@ export async function deleteMealPlan(id) {
         _prepareApiObj('delete', `/meal/${id}`, null, "no-body-auth", '')
     )
 }
+
+export async function createWorkoutPlan(workoutName, workoutDesc, workouts) {
+    let body = {
+        "title": workoutName,
+        "description": workoutDesc,
+        "isCurrent": true,
+        "exercises": workouts
+    }
+    return await Api.callApi(
+        _prepareApiObj('post', `/workout`, body, "json", '')
+    )
+}
+
+export async function updateWorkoutPlan(workoutId, workoutName, workoutDesc, workouts) {
+    let body = {
+        "id": workoutId,
+        "title": workoutName,
+        "description": workoutDesc,
+        "isCurrent": true,
+        "exercises": workouts
+    }
+    return await Api.callApi(
+        _prepareApiObj('post', `/workout`, body, "json", '')
+    )
+}
+
+export async function getEx() {
+    return await Api.callApi(
+        _prepareApiObj('get', `/workout/exercise`, null, "no-body-auth", '')
+    )
+}
+
+export async function getWorkouts() {
+    return await Api.callApi(
+        _prepareApiObj('get', `/workout`, null, "no-body-auth", '')
+    )
+}
+
+export async function getMyWorkouts() {
+    return await Api.callApi(
+        _prepareApiObj('get', `/workout/my`, null, "no-body-auth", '')
+    )
+}
+
+export async function deleteWorkout(id) {
+    return await Api.callApi(
+        _prepareApiObj('delete', `/workout/${id}`, null, "no-body-auth", '')
+    )
+}

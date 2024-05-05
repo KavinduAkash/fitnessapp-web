@@ -10,6 +10,7 @@ import Signup from "./views/signup";
 import Signin from "./views/signin";
 import User from "./views/user";
 import Meal from "./views/meal.jsx";
+import Workout from "./views/workout.jsx";
 
 const appr = [
   {
@@ -39,6 +40,10 @@ const appr = [
   {
     path: "/meal",
     element: <Meal/>,
+  },
+  {
+    path: "/workout",
+    element: <Workout/>,
   },
 ]
 

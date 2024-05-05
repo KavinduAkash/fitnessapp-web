@@ -17,3 +17,50 @@
     content: "🟢";
     font-size: 10px;
 }
+
+.profile-workout-card > .profile-workout-card-title {
+    display: flex;
+    align-items: center;
+    background: #145392;
+    padding: 10px;
+}
+
+.profile-workout-card > .profile-workout-card-title > div:first-child {
+    width: 30px;
+    aspect-ratio: 1/1;
+    background: lightgray;
+    border-radius: 100%;
+    border: 1px solid black;
+    margin-right: 5px;
+}
+
+.profile-workout-card > .profile-workout-card-title > div:nth-child(2) {
+    font-size: 18px;
+    margin-left: 5px;
+    color: white;
+}
+
+.profile-workout-card > .profile-workout-card-title > div:nth-child(3) > button {
+    color: white;
+    border: 1px solid white;
+    margin-left: 20px;
+}
+.profile-workout-card > .profile-workout-card-title > div:nth-child(3) > button > svg {
+    font-size: 15px;
+}
+
+.exercise-card {
+    background: #edf2ff;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.exercise-card > div {
+    font-size: 15px;
+    font-weight: bold;
+    background: #437db0;
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: white;
+}
