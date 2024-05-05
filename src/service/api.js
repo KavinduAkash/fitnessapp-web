@@ -130,6 +130,12 @@ export async function getPosts() {
     )
 }
 
+export async function getMyPosts() {
+    return await Api.callApi(
+        _prepareApiObj('get', `/post/my`, null, "no-body-auth", '')
+    )
+}
+
 export async function likePost(id) {
     return await Api.callApi(
         _prepareApiObj('patch', `/post/like/${id}`, null, "no-body-auth", '')
