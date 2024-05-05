@@ -40,7 +40,7 @@ function Home() {
     const [scroll3, setScroll3] = React.useState('paper');
     const [video, setVideo] = React.useState('');
 
-    const [open4, setOpen4] = React.useState(true);
+    const [open4, setOpen4] = React.useState(false);
     const [scroll4, setScroll4] = React.useState('paper');
 
     const [images, setImages] = React.useState([]);

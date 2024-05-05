@@ -13,11 +13,14 @@ import React, {useEffect, useState} from "react";
 import * as API from "../service/api.js";
 import * as AgeFinder from "../utils/agefinder.js";
 import Swal from "sweetalert2";
+import {deleteMealPlan} from "../service/api.js";
 
 function Meal() {
 
     const [open10, setOpen10] = React.useState(false);
     const [scroll10, setScroll10] = React.useState('paper');
+
+    const[mealId, setMealId] = useState(0);
 
     const[meals, setMeals] = useState([]);
 
@@ -35,11 +38,52 @@ function Meal() {
             setMealDesc("")
             setFoodName("")
             setFoodDesc("")
+            setMealId(0);
             setFoods([]);
         }
         setOpen10(!open10);
     };
 
+
+    const openMealUpdate = (data) => {
+        setMealId(data.id);
+        setMealName(data.title);
+        setMealDesc(data.description);
+        setFoods(data.meals);
+        setOpen10(!open10);
+    }
+
+    const deleteMeal = (id) => {
+        API.deleteMealPlan(id).then(r => {
+            console.log(r);
+            if (r.success) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Meal plan deleted successfully!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                getMealPlans();
+            } else {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
 
     const createMealPlan = () => {
         API.createMealPlan(mealName, mealDesc, foods).then(r => {
@@ -136,6 +180,44 @@ function Meal() {
         setFoods(newFoods);
     }
 
+    const updateMealPlan = () => {
+        API.updateMealPlan(mealId, mealName, mealDesc, foods).then(r => {
+            console.log(r);
+            if (r.success) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Meal plan created successfully!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                setMealName("")
+                setMealDesc("")
+                setFoodName("")
+                setFoodDesc("")
+                setFoods([]);
+                handleClose10();
+                getMealPlans();
+            } else {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
+
     useEffect(() => {
         getMealPlans();
     }, [])
@@ -151,12 +233,12 @@ function Meal() {
                 aria-describedby="scroll-dialog-description"
                 minWidth={"lg"}
             >
-                <DialogTitle id="scroll-dialog-title">Create new meal plans</DialogTitle>
+                <DialogTitle id="scroll-dialog-title">{mealId>0 ? 'Update meal plan' : 'Create new meal plans'}</DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
 
                     <Box sx={{marginTop: '10px'}}>
                         <TextField type="text" id="filled-basic" label="Meal Plan Name" variant="filled"
-                                   sx={{width: '100%'}} onChange={e => setMealName(e.target.value)}/>
+                                   sx={{width: '100%'}} value={mealName} onChange={e => setMealName(e.target.value)}/>
                     </Box>
 
                     <Box sx={{marginTop: '10px'}}>
@@ -166,6 +248,7 @@ function Meal() {
                                 multiline
                                 rows={5}
                                 maxRows={4}
+                                value={mealDesc}
                                 onChange={e => setMealDesc(e.target.value)}
                             />
                         </div>
@@ -217,8 +300,8 @@ function Meal() {
 
                     <div style={{textAlign: 'end', marginTop: '20px'}}>
                         <Button variant={'contained'}
-                            onClick={createMealPlan}
-                        >Publish</Button>
+                            onClick={mealId>0 ? updateMealPlan : createMealPlan}
+                        >{mealId>0 ? 'Update' : 'Publish'}</Button>
                     </div>
 
                 </DialogContent>
@@ -232,7 +315,7 @@ function Meal() {
 
 
                     {
-                        meals.map(m =>  <ProfileMealCard data={m}/>)
+                        meals.map(m =>  <ProfileMealCard data={m} deleteMeal={deleteMeal} openUpdate={openMealUpdate}/>)
                     }
 
                 </section>

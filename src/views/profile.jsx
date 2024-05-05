@@ -96,8 +96,8 @@ function Profile() {
 
     const [contentType, setContentType] = useState(1);
 
-    const[password, setPassword] = useState("");
-    const[confirmedPassword, setConfirmedPassword] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmedPassword, setConfirmedPassword] = useState("");
 
 
     // -------- POST---------
@@ -129,15 +129,17 @@ function Profile() {
     const [open10, setOpen10] = React.useState(false);
     const [scroll10, setScroll10] = React.useState('paper');
 
-    const[meals, setMeals] = useState([]);
+    const [mealId, setMealId] = useState(0);
 
-    const[mealName, setMealName] = useState("");
-    const[mealDesc, setMealDesc] = useState("");
+    const [meals, setMeals] = useState([]);
 
-    const[foodName, setFoodName] = useState("");
-    const[foodDesc, setFoodDesc] = useState("");
+    const [mealName, setMealName] = useState("");
+    const [mealDesc, setMealDesc] = useState("");
 
-    const[foods, setFoods] = useState([]);
+    const [foodName, setFoodName] = useState("");
+    const [foodDesc, setFoodDesc] = useState("");
+
+    const [foods, setFoods] = useState([]);
 
 
     const handleClickOpen = (scrollType) => () => {
@@ -225,7 +227,7 @@ function Profile() {
                     setIsFollower(r.data.body.follower);
                     setIsFollowing(r.data.body.following);
 
-                    if(r.data.body.myProfile) {
+                    if (r.data.body.myProfile) {
                         setUFirstName(r.data.body.firstName);
                         setULastName(r.data.body.lastName);
                         setUDOB(new Date(r.data.body.dob));
@@ -332,7 +334,7 @@ function Profile() {
     }
 
     const resetPassword = () => {
-        if(password===confirmedPassword) {
+        if (password === confirmedPassword) {
             API.resetPassword(password).then(r => {
                 Swal.fire({
                     position: "top-end",
@@ -364,9 +366,9 @@ function Profile() {
     }
 
     const handleClose = (type) => {
-        if (type==="PASSWORD_RESET") {
+        if (type === "PASSWORD_RESET") {
             resetPassword();
-        } else if(type === "UPDATE"){
+        } else if (type === "UPDATE") {
             updateProfile();
         } else {
             setOpen(!open);
@@ -439,15 +441,15 @@ function Profile() {
     //     setOpen(!open);
     // };
 
-    const handleClose2= () => {
+    const handleClose2 = () => {
         setOpen2(!open2);
     };
 
-    const handleClose3= () => {
+    const handleClose3 = () => {
         setOpen3(!open3);
     };
 
-    const handleClose4= () => {
+    const handleClose4 = () => {
         setOpen4(!open4);
     };
 
@@ -495,7 +497,7 @@ function Profile() {
 
     const createPost = () => {
         API.createPost({files: images, note: note}).then(r => {
-            if(r.data.success) {
+            if (r.data.success) {
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
@@ -537,7 +539,7 @@ function Profile() {
     }
 
     const handleClose10 = () => {
-        if(open) {
+        if (open) {
             setMealName("")
             setMealDesc("")
             setFoodName("")
@@ -596,9 +598,50 @@ function Profile() {
         })
     }
 
-
+    const openMealUpdate = (data) => {
+        setMealId(data.id);
+        setMealName(data.title);
+        setMealDesc(data.description);
+        setFoods(data.meals);
+        setOpen10(!open10);
+    }
     const getMealMyPlans = () => {
         API.getMyMealPlan().then(r => {
+            console.log(r);
+            if (r.success) {
+                if (r.data.success) {
+                    setMeals(r.data.body)
+                } else {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Sorry!, something went wrong",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            } else {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
+
+    const getUserMealPlans = () => {
+        API.getUserMealPlan(idx).then(r => {
             console.log(r);
             if (r.success) {
                 if (r.data.success) {
@@ -638,15 +681,90 @@ function Profile() {
             meal_name: foodName,
             description: foodDesc
         }
-        let newFoods =  [...foods];
+        let newFoods = [...foods];
         newFoods.push(food);
         setFoods(newFoods);
     }
 
+    const updateMealPlan = () => {
+        API.updateMealPlan(mealId, mealName, mealDesc, foods).then(r => {
+            console.log(r);
+            if (r.success) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Meal plan created successfully!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                setMealName("")
+                setMealDesc("")
+                setFoodName("")
+                setFoodDesc("")
+                setFoods([]);
+                handleClose10();
+                getMealPlans();
+            } else {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
+
+    const deleteMeal = (id) => {
+        API.deleteMealPlan(id).then(r => {
+            console.log(r);
+            if (r.success) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Meal plan deleted successfully!",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
+                if (idx) {
+                    getUserMealPlans();
+                } else {
+                    getMealMyPlans();
+                }
+
+            } else {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
 
     useEffect(() => {
         const accessToken = localStorage.getItem(ACCESS_TOKEN);
-        if(!accessToken) {
+        if (!accessToken) {
             Swal.fire({
                 position: "top-end",
                 icon: "error",
@@ -657,8 +775,9 @@ function Profile() {
             navigate("/signin")
         }
 
-        if(idx) {
+        if (idx) {
             loadProfile();
+            getUserMealPlans();
         } else {
             loadMyProfile();
             getPosts();
@@ -675,7 +794,9 @@ function Profile() {
                 aria-labelledby="scroll-dialog-title"
                 aria-describedby="scroll-dialog-description"
             >
-                <DialogTitle id="scroll-dialog-title"><div style={{textAlign: "end"}}><span onClick={handleClose}>X</span></div>Account Settings</DialogTitle>
+                <DialogTitle id="scroll-dialog-title">
+                    <div style={{textAlign: "end"}}><span onClick={handleClose}>X</span></div>
+                    Account Settings</DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
                     <form action="">
 
@@ -808,7 +929,8 @@ function Profile() {
                         </section>
 
                         <DialogActions>
-                            <Button variant="contained" onClick={() => handleClose("PASSWORD_RESET")}>Reset Password</Button>
+                            <Button variant="contained" onClick={() => handleClose("PASSWORD_RESET")}>Reset
+                                Password</Button>
                         </DialogActions>
 
                     </form>
@@ -852,11 +974,21 @@ function Profile() {
 
                     <div className={'profile-followers-content'}>
 
-                        <Friend image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'} name={"Jhone white"}/>
-                        <Friend image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'} name={"Jhone white"}/>
-                        <Friend image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'} name={"Jhone white"}/>
-                        <Friend image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'} name={"Jhone white"}/>
-                        <Friend image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'} name={"Jhone white"}/>
+                        <Friend
+                            image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'}
+                            name={"Jhone white"}/>
+                        <Friend
+                            image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'}
+                            name={"Jhone white"}/>
+                        <Friend
+                            image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'}
+                            name={"Jhone white"}/>
+                        <Friend
+                            image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'}
+                            name={"Jhone white"}/>
+                        <Friend
+                            image={'https://t3.ftcdn.net/jpg/05/09/38/68/240_F_509386837_KH6uEl5YptC272rHHof6z2zE4xXagww2.jpg'}
+                            name={"Jhone white"}/>
 
                     </div>
 
@@ -891,7 +1023,7 @@ function Profile() {
                 <DialogContent dividers={scroll === 'paper'}>
 
                     <div className={'post-video'}>
-                        <ReactPlayer width={'100%'}  url={video} />
+                        <ReactPlayer width={'100%'} url={video}/>
                     </div>
 
                 </DialogContent>
@@ -908,9 +1040,12 @@ function Profile() {
                 <DialogTitle id="scroll-dialog-title">Edit post</DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
                     <div className={'image-dropper-container'}>
-                        <button className={"image-dropper"} onClick={uploadFileu} disabled={imagesu.length>=4 ?true:false}>
+                        <button className={"image-dropper"} onClick={uploadFileu}
+                                disabled={imagesu.length >= 4 ? true : false}>
                             <div className={"image-dropper-content"}>
-                                <div>{`Select your media `}</div><PermMediaIcon/><div>{` ( ${imagesu.length}/4 )`}</div>
+                                <div>{`Select your media `}</div>
+                                <PermMediaIcon/>
+                                <div>{` ( ${imagesu.length}/4 )`}</div>
                             </div>
                         </button>
                     </div>
@@ -924,9 +1059,15 @@ function Profile() {
                                     let fff = file.url ? file : URL.createObjectURL(file);
                                     // return <img src={URL.createObjectURL(file)} alt="" width={'100px'}/>
                                     return <Grid item xs={3} key={index}>
-                                        <div style={{background: `url(${fff})`, backgroundPosition: 'center', backgroundSize: 'cover'}} className={'image-block'}>
-                                            {file.type==="video/mp4" && <div className={'image-block-video'}><PlayCircleOutlineIcon/></div>}
-                                            <div className={'image-block-remove'} onClick={() => removeFileu(index)}><HighlightOffIcon/></div>
+                                        <div style={{
+                                            background: `url(${fff})`,
+                                            backgroundPosition: 'center',
+                                            backgroundSize: 'cover'
+                                        }} className={'image-block'}>
+                                            {file.type === "video/mp4" &&
+                                                <div className={'image-block-video'}><PlayCircleOutlineIcon/></div>}
+                                            <div className={'image-block-remove'} onClick={() => removeFileu(index)}>
+                                                <HighlightOffIcon/></div>
                                         </div>
                                     </Grid>
                                 })
@@ -961,12 +1102,12 @@ function Profile() {
                 aria-describedby="scroll-dialog-description"
                 minWidth={"lg"}
             >
-                <DialogTitle id="scroll-dialog-title">Create new meal plans</DialogTitle>
+                <DialogTitle id="scroll-dialog-title">Update meal plans</DialogTitle>
                 <DialogContent dividers={scroll === 'paper'}>
 
                     <Box sx={{marginTop: '10px'}}>
                         <TextField type="text" id="filled-basic" label="Meal Plan Name" variant="filled"
-                                   sx={{width: '100%'}} onChange={e => setMealName(e.target.value)}/>
+                                   sx={{width: '100%'}} value={mealName} onChange={e => setMealName(e.target.value)}/>
                     </Box>
 
                     <Box sx={{marginTop: '10px'}}>
@@ -976,6 +1117,7 @@ function Profile() {
                                 multiline
                                 rows={5}
                                 maxRows={4}
+                                value={mealDesc}
                                 onChange={e => setMealDesc(e.target.value)}
                             />
                         </div>
@@ -989,7 +1131,9 @@ function Profile() {
                                         <div className={'food'}>
                                             <div>{r.meal_name}</div>
                                             <p>{r.description}</p>
-                                            <div style={{textAlign: 'end'}}><Button variant={'text'} sx={{color: 'red'}}>Delete</Button></div>
+                                            <div style={{textAlign: 'end'}}><Button variant={'text'}
+                                                                                    sx={{color: 'red'}}>Delete</Button>
+                                            </div>
                                         </div>
                                     )
                                 }
@@ -1027,8 +1171,8 @@ function Profile() {
 
                     <div style={{textAlign: 'end', marginTop: '20px'}}>
                         <Button variant={'contained'}
-                                onClick={createMealPlan}
-                        >Publish</Button>
+                                onClick={updateMealPlan}
+                        >Update</Button>
                     </div>
 
                 </DialogContent>
@@ -1049,7 +1193,8 @@ function Profile() {
                     </div>
 
                     <div className={'profile-head-title mukta-bold'}>
-                        {firstName} {lastName} <span className={'profile-head-edit'} style={myProfile ? {} : {display: 'none'}}
+                        {firstName} {lastName} <span className={'profile-head-edit'}
+                                                     style={myProfile ? {} : {display: 'none'}}
                                                      onClick={handleClickOpen('body')}><EditIcon
                         style={{fontSize: '13px'}}/>Edit</span>
                     </div>
@@ -1066,11 +1211,15 @@ function Profile() {
                     {!myProfile && <div className={'follow-btn'}>
 
                         {isFollowing ?
-                            <Button variant={'outlined'} onClick={() => followUser(false)}><GroupRemoveIcon/><div>Unfollow</div></Button> :
-                            <Button variant={'contained'} onClick={() => followUser(true)}><GroupAddIcon/><div>Follow</div></Button>
+                            <Button variant={'outlined'} onClick={() => followUser(false)}><GroupRemoveIcon/>
+                                <div>Unfollow</div>
+                            </Button> :
+                            <Button variant={'contained'} onClick={() => followUser(true)}><GroupAddIcon/>
+                                <div>Follow</div>
+                            </Button>
                         }
 
-                    </div> }
+                    </div>}
 
                 </section>
 
@@ -1079,9 +1228,15 @@ function Profile() {
                     {/*---- content ribon ----  */}
                     <section className={'profile-content-ribon'}>
                         <div>
-                            <div className={contentType==1 && 'content-ribon-select'} onClick={() => handleContentType(1)}>Posts</div>
-                            <div className={contentType==2 && 'content-ribon-select'} onClick={() => handleContentType(2)}>Meal Plans</div>
-                            <div className={contentType==3 && 'content-ribon-select'} onClick={() => handleContentType(3)}>Worksouts</div>
+                            <div className={contentType == 1 && 'content-ribon-select'}
+                                 onClick={() => handleContentType(1)}>Posts
+                            </div>
+                            <div className={contentType == 2 && 'content-ribon-select'}
+                                 onClick={() => handleContentType(2)}>Meal Plans
+                            </div>
+                            <div className={contentType == 3 && 'content-ribon-select'}
+                                 onClick={() => handleContentType(3)}>Worksouts
+                            </div>
                         </div>
                     </section>
                     {/*---- content posts, meal plans, workspaces ----  */}
@@ -1092,7 +1247,9 @@ function Profile() {
 
                                 <section>
                                     {
-                                        posts.map((post, index) =>  <HomePostCard data={post} openComments={openComments} openVideo={openVideo} updatePost={setPostUpdateData}/>)
+                                        posts.map((post, index) => <HomePostCard data={post} openComments={openComments}
+                                                                                 openVideo={openVideo}
+                                                                                 updatePost={setPostUpdateData}/>)
                                     }
                                 </section>
 
@@ -1101,7 +1258,8 @@ function Profile() {
 
 
                                         {
-                                            meals.map(m =>  <ProfileMealCard data={m}/>)
+                                            meals.map(m => <ProfileMealCard data={m} deleteMeal={deleteMeal}
+                                                                            openUpdate={openMealUpdate}/>)
                                         }
 
                                     </section>

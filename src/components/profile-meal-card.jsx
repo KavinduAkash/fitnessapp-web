@@ -3,6 +3,7 @@ import "../assets/styles/profile-meal-card.css";
 import {Button} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit.js";
 import DeleteIcon from "@mui/icons-material/Delete.js";
+import {PROFILE_ID} from "../utils/const.js";
 
 function ProfileMealCard(props) {
 
@@ -22,12 +23,11 @@ function ProfileMealCard(props) {
         <div className={'profile-meal-card'}>
             <div className={'profile-meal-card-title'}>
                 <div></div>
-                <div>{`Siril Aiya`}</div>
-                {/*<div>{`${post.user?.firstName} ${post.user?.lastName}`}</div>*/}
-                {/*{myPost && <div>*/}
-                {/*    <Button variant={'outlined'} size={'small'} onClick={updatePost}><EditIcon/>Edit</Button>*/}
-                {/*    <Button variant={'outlined'} size={'small'} onClick={updatePost}><DeleteIcon/>Delete</Button>*/}
-                {/*</div>}*/}
+                <div>{`${props.data.userDTO.firstName} ${props.data.userDTO.lastName}`}</div>
+                {+localStorage.getItem(PROFILE_ID)===props.data.userDTO.id && <div>
+                    <Button variant={'outlined'} size={'small'} onClick={() => props.openUpdate(props.data)}><EditIcon/>Edit</Button>
+                    <Button variant={'outlined'} size={'small'} onClick={() => props.deleteMeal(props.data.id)}><DeleteIcon/>Delete</Button>
+                </div>}
             </div>
             <h3 style={{marginLeft: "10px"}}>{props.data.title}</h3>
             <p>{props.data.description}</p>

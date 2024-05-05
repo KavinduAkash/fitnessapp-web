@@ -177,6 +177,19 @@ export async function createMealPlan(mealName, mealDesc, foods) {
     )
 }
 
+export async function updateMealPlan(id, mealName, mealDesc, foods) {
+    let body = {
+        "id": id,
+        "title": mealName,
+        "description": mealDesc,
+        "isCurrent": true,
+        "meals": foods
+    }
+    return await Api.callApi(
+        _prepareApiObj('put', `/meal`, body, "json", '')
+    )
+}
+
 export async function getMealPlan() {
     return await Api.callApi(
         _prepareApiObj('get', `/meal`, null, "no-body-auth", '')
@@ -186,5 +199,17 @@ export async function getMealPlan() {
 export async function getMyMealPlan() {
     return await Api.callApi(
         _prepareApiObj('get', `/meal/my`, null, "no-body-auth", '')
+    )
+}
+
+export async function getUserMealPlan(id) {
+    return await Api.callApi(
+        _prepareApiObj('get', `/meal/user/${id}`, null, "no-body-auth", '')
+    )
+}
+
+export async function deleteMealPlan(id) {
+    return await Api.callApi(
+        _prepareApiObj('delete', `/meal/${id}`, null, "no-body-auth", '')
     )
 }
