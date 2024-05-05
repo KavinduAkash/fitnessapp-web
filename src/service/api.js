@@ -182,3 +182,9 @@ export async function getMealPlan() {
         _prepareApiObj('get', `/meal`, null, "no-body-auth", '')
     )
 }
+
+export async function getMyMealPlan() {
+    return await Api.callApi(
+        _prepareApiObj('get', `/meal/my`, null, "no-body-auth", '')
+    )
+}

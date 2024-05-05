@@ -124,6 +124,21 @@ function Profile() {
     const [posts, setPosts] = React.useState([]);
     const [currentPost, setCurrentPost] = React.useState(null);
 
+    // ------- meal ---------
+
+    const [open10, setOpen10] = React.useState(false);
+    const [scroll10, setScroll10] = React.useState('paper');
+
+    const[meals, setMeals] = useState([]);
+
+    const[mealName, setMealName] = useState("");
+    const[mealDesc, setMealDesc] = useState("");
+
+    const[foodName, setFoodName] = useState("");
+    const[foodDesc, setFoodDesc] = useState("");
+
+    const[foods, setFoods] = useState([]);
+
 
     const handleClickOpen = (scrollType) => () => {
         setOpen(true);
@@ -521,6 +536,113 @@ function Profile() {
         setOpen3(true);
     }
 
+    const handleClose10 = () => {
+        if(open) {
+            setMealName("")
+            setMealDesc("")
+            setFoodName("")
+            setFoodDesc("")
+            setFoods([]);
+        }
+        setOpen10(!open10);
+    };
+
+
+    const createMealPlan = () => {
+        API.createMealPlan(mealName, mealDesc, foods).then(r => {
+            console.log(r);
+            if (r.success) {
+                if (r.data.success) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Meal plan created successfully!",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    setMealName("")
+                    setMealDesc("")
+                    setFoodName("")
+                    setFoodDesc("")
+                    setFoods([]);
+                    handleClose10();
+                    getMealPlans();
+                } else {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Sorry!, something went wrong",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            } else {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
+
+
+    const getMealMyPlans = () => {
+        API.getMyMealPlan().then(r => {
+            console.log(r);
+            if (r.success) {
+                if (r.data.success) {
+                    setMeals(r.data.body)
+                } else {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Sorry!, something went wrong",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            } else {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
+
+    const addFoodList = () => {
+        let food = {
+            id: 0,
+            meal_name: foodName,
+            description: foodDesc
+        }
+        let newFoods =  [...foods];
+        newFoods.push(food);
+        setFoods(newFoods);
+    }
+
 
     useEffect(() => {
         const accessToken = localStorage.getItem(ACCESS_TOKEN);
@@ -540,6 +662,7 @@ function Profile() {
         } else {
             loadMyProfile();
             getPosts();
+            getMealMyPlans();
         }
     }, [])
 
@@ -830,6 +953,87 @@ function Profile() {
             </Dialog>
 
 
+            <Dialog
+                open={open10}
+                onClose={handleClose10}
+                scroll={scroll10}
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
+                minWidth={"lg"}
+            >
+                <DialogTitle id="scroll-dialog-title">Create new meal plans</DialogTitle>
+                <DialogContent dividers={scroll === 'paper'}>
+
+                    <Box sx={{marginTop: '10px'}}>
+                        <TextField type="text" id="filled-basic" label="Meal Plan Name" variant="filled"
+                                   sx={{width: '100%'}} onChange={e => setMealName(e.target.value)}/>
+                    </Box>
+
+                    <Box sx={{marginTop: '10px'}}>
+                        <div className={'post-description'}>
+                            <TextField
+                                placeholder="Enter Meal Plan description"
+                                multiline
+                                rows={5}
+                                maxRows={4}
+                                onChange={e => setMealDesc(e.target.value)}
+                            />
+                        </div>
+                    </Box>
+
+                    <Box sx={{marginTop: '10px', minWidth: '500px'}}>
+                        <section>
+                            <div className={'added-food'}>
+                                {
+                                    foods.map(r =>
+                                        <div className={'food'}>
+                                            <div>{r.meal_name}</div>
+                                            <p>{r.description}</p>
+                                            <div style={{textAlign: 'end'}}><Button variant={'text'} sx={{color: 'red'}}>Delete</Button></div>
+                                        </div>
+                                    )
+                                }
+
+                            </div>
+                            <div className={'food-enter'}>
+
+                                <h3>Add New Meal</h3>
+
+                                <Box sx={{marginTop: '10px'}}>
+                                    <TextField type="text" id="filled-basic" label="New Food Item" variant="filled"
+                                               sx={{width: '100%'}} onChange={e => setFoodName(e.target.value)}/>
+                                </Box>
+
+                                <Box sx={{marginTop: '10px'}}>
+                                    <div className={'post-description'}>
+                                        <TextField
+                                            placeholder="Enter food inte description"
+                                            multiline
+                                            rows={2}
+                                            maxRows={4}
+                                            onChange={e => setFoodDesc(e.target.value)}
+                                        />
+                                    </div>
+                                </Box>
+
+                                <div style={{marginTop: '10px'}}>
+                                    <Button variant={'outlined'} sx={{width: '100%'}}
+                                            onClick={addFoodList}
+                                    >Add</Button>
+                                </div>
+                            </div>
+                        </section>
+                    </Box>
+
+                    <div style={{textAlign: 'end', marginTop: '20px'}}>
+                        <Button variant={'contained'}
+                                onClick={createMealPlan}
+                        >Publish</Button>
+                    </div>
+
+                </DialogContent>
+            </Dialog>
+
             <Header/>
             <section>
                 {/*---- head ----  */}
@@ -895,8 +1099,10 @@ function Profile() {
                                 : contentType == 2 ?
                                     <section>
 
-                                        <ProfileMealCard/>
-                                        <ProfileMealCard/>
+
+                                        {
+                                            meals.map(m =>  <ProfileMealCard data={m}/>)
+                                        }
 
                                     </section>
                                     :

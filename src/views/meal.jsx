@@ -16,8 +16,8 @@ import Swal from "sweetalert2";
 
 function Meal() {
 
-    const [open, setOpen] = React.useState(false);
-    const [scroll, setScroll] = React.useState('paper');
+    const [open10, setOpen10] = React.useState(false);
+    const [scroll10, setScroll10] = React.useState('paper');
 
     const[meals, setMeals] = useState([]);
 
@@ -29,7 +29,7 @@ function Meal() {
 
     const[foods, setFoods] = useState([]);
 
-    const handleClose = () => {
+    const handleClose10 = () => {
         if(open) {
             setMealName("")
             setMealDesc("")
@@ -37,7 +37,7 @@ function Meal() {
             setFoodDesc("")
             setFoods([]);
         }
-        setOpen(!open);
+        setOpen10(!open10);
     };
 
 
@@ -58,7 +58,7 @@ function Meal() {
                     setFoodName("")
                     setFoodDesc("")
                     setFoods([]);
-                    handleClose();
+                    handleClose10();
                     getMealPlans();
                 } else {
                     Swal.fire({
@@ -144,9 +144,9 @@ function Meal() {
         <div>
 
             <Dialog
-                open={open}
-                onClose={handleClose}
-                scroll={scroll}
+                open={open10}
+                onClose={handleClose10}
+                scroll={scroll10}
                 aria-labelledby="scroll-dialog-title"
                 aria-describedby="scroll-dialog-description"
                 minWidth={"lg"}
@@ -227,7 +227,7 @@ function Meal() {
 
             <Header/>
             <section className={'common-content'}>
-                <CreateMealBar update={handleClose}/>
+                <CreateMealBar update={handleClose10}/>
                 <section>
 
 
