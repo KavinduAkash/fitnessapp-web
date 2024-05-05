@@ -176,3 +176,9 @@ export async function createMealPlan(mealName, mealDesc, foods) {
         _prepareApiObj('post', `/meal`, body, "json", '')
     )
 }
+
+export async function getMealPlan() {
+    return await Api.callApi(
+        _prepareApiObj('get', `/meal`, null, "no-body-auth", '')
+    )
+}

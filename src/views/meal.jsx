@@ -9,7 +9,7 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline.js";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff.js";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as API from "../service/api.js";
 import * as AgeFinder from "../utils/agefinder.js";
 import Swal from "sweetalert2";
@@ -59,6 +59,43 @@ function Meal() {
                     setFoodDesc("")
                     setFoods([]);
                     handleClose();
+                    getMealPlans();
+                } else {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Sorry!, something went wrong",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            } else {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Sorry!, something went wrong",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        }).catch(e => {
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Sorry!, something went wrong",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    }
+
+
+    const getMealPlans = () => {
+        API.getMealPlan().then(r => {
+            console.log(r);
+            if (r.success) {
+                if (r.data.success) {
+                    setMeals(r.data.body)
                 } else {
                     Swal.fire({
                         position: "top-end",
@@ -99,6 +136,9 @@ function Meal() {
         setFoods(newFoods);
     }
 
+    useEffect(() => {
+        getMealPlans();
+    }, [])
 
     return (
         <div>
@@ -190,8 +230,10 @@ function Meal() {
                 <CreateMealBar update={handleClose}/>
                 <section>
 
-                    <ProfileMealCard/>
-                    <ProfileMealCard/>
+
+                    {
+                        meals.map(m =>  <ProfileMealCard data={m}/>)
+                    }
 
                 </section>
             </section>

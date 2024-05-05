@@ -1,10 +1,23 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "../assets/styles/profile-meal-card.css";
 import {Button} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit.js";
 import DeleteIcon from "@mui/icons-material/Delete.js";
 
-function ProfileMealCard() {
+function ProfileMealCard(props) {
+
+    const[minArray, setMinArray] = useState([]);
+    const[ex, setEx] = useState(false);
+
+    useEffect(() => {
+        if(props.data.meals && props.data.meals.length>2) {
+            let newArr = [props.data.meals[0],
+            props.data.meals[1]];
+            setMinArray(newArr);
+            setEx(false);
+        }
+    }, [])
+
     return(
         <div className={'profile-meal-card'}>
             <div className={'profile-meal-card-title'}>
@@ -16,21 +29,36 @@ function ProfileMealCard() {
                 {/*    <Button variant={'outlined'} size={'small'} onClick={updatePost}><DeleteIcon/>Delete</Button>*/}
                 {/*</div>}*/}
             </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi delectus dolores est ex, expedita fugiat fugit hic id iste nemo omnis provident ratione repudiandae sunt tempora tempore unde velit vero?</p>
+            <h3 style={{marginLeft: "10px"}}>{props.data.title}</h3>
+            <p>{props.data.description}</p>
             <section className={'food-container'}>
-                <div className={'food'}>
-                    <div>Rice</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium ex exercitationem facilis laboriosam laborum nam necessitatibus nesciunt numquam odio optio perferendis placeat praesentium qui rem tempore, totam unde voluptatem.</p>
-                </div>
 
-                <div className={'food'}>
-                    <div>Rice</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium ex exercitationem facilis laboriosam laborum nam necessitatibus nesciunt numquam odio optio perferendis placeat praesentium qui rem tempore, totam unde voluptatem.</p>
-                </div>
+                {
+                    minArray.length > 0 ?
+                        ex ? props.data.meals.map(m =>
+                            <div className={'food'}>
+                                <div>Rice</div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium ex exercitationem facilis laboriosam laborum nam necessitatibus nesciunt numquam odio optio perferendis placeat praesentium qui rem tempore, totam unde voluptatem.</p>
+                            </div>
+                        ):
+                            minArray.map(m =>
+                                <div className={'food'}>
+                                    <div>Rice</div>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium ex exercitationem facilis laboriosam laborum nam necessitatibus nesciunt numquam odio optio perferendis placeat praesentium qui rem tempore, totam unde voluptatem.</p>
+                                </div>
+                            ):
+                        props.data.meals.map(m =>
+                            <div className={'food'}>
+                                <div>Rice</div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium ex exercitationem facilis laboriosam laborum nam necessitatibus nesciunt numquam odio optio perferendis placeat praesentium qui rem tempore, totam unde voluptatem.</p>
+                            </div>
+                        )
+                }
+
             </section>
-            <div>
-                <Button variant={"outlined"}>Expand More</Button>
-            </div>
+            { minArray.length > 0 && <div>
+                <Button variant={"outlined"} onClick={() => setEx(!ex)}>Expand More</Button>
+            </div> }
         </div>
     )
 }
