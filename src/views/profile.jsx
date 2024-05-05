@@ -893,20 +893,12 @@ function Profile() {
                                 </section>
 
                                 : contentType == 2 ?
-                                    <Grid container spacing={0}>
-                                        <Grid item xs={12}>
-                                            <ProfileMealCard/>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <ProfileMealCard/>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <ProfileMealCard/>
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <ProfileMealCard/>
-                                        </Grid>
-                                    </Grid>
+                                    <section>
+
+                                        <ProfileMealCard/>
+                                        <ProfileMealCard/>
+
+                                    </section>
                                     :
                                     <Grid container spacing={0}>
                                         <Grid item xs={12}>

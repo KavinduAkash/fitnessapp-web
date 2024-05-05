@@ -93,6 +93,26 @@ body {
     cursor: pointer;
 }
 
+.added-food > .food {
+    background: #edf2ff;
+    padding: 20px;
+}
+
+.food > div:first-child {
+    font-size: 15px;
+    font-weight: bolder;
+    background: #145392;
+    width: fit-content;
+    padding: 5px 15px;
+    color: white;
+    border-radius: 10px;
+}
+.food-enter {
+    background: #edf2ff;
+    /*border: 1px solid #437db0;*/
+    padding: 20px;
+}
+
 @media all and (max-width: 900px){
     .auth-left-view {
         display: none;

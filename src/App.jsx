@@ -9,6 +9,7 @@ import Profile from "./views/profile.jsx";
 import Signup from "./views/signup";
 import Signin from "./views/signin";
 import User from "./views/user";
+import Meal from "./views/meal.jsx";
 
 const appr = [
   {
@@ -34,6 +35,10 @@ const appr = [
   {
     path: "/profile/:idx",
     element: <Profile/>,
+  },
+  {
+    path: "/meal",
+    element: <Meal/>,
   },
 ]
 

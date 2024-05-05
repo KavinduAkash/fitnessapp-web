@@ -163,3 +163,16 @@ export async function deleteComment(id) {
         _prepareApiObj('delete', `/post/comment/${id}`, null, "no-body-auth", '')
     )
 }
+
+
+export async function createMealPlan(mealName, mealDesc, foods) {
+    let body = {
+        "title": mealName,
+        "description": mealDesc,
+        "isCurrent": true,
+        "meals": foods
+    }
+    return await Api.callApi(
+        _prepareApiObj('post', `/meal`, body, "json", '')
+    )
+}

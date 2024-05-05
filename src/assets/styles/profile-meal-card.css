@@ -1,5 +1,7 @@
 .profile-meal-card {
     background: white;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .profile-meal-card > .profile-meal-card-title {
@@ -11,4 +13,64 @@
 
 .profile-meal-card > p {
     padding: 10px;
+}
+
+.profile-meal-card > .food-container {
+    margin: 0px 10px;
+}
+
+.profile-meal-card > .food-container > .food {
+    background: #edf2ff;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.profile-meal-card > .food-container > .food > div {
+    font-size: 15px;
+    font-weight: bolder;
+    background: #145392;
+    width: fit-content;
+    padding: 5px 15px;
+    color: white;
+    border-radius: 10px;
+}
+
+.profile-meal-card > div {
+text-align: center;
+}
+.profile-meal-card > div > button {
+    width: 80%;
+    margin: 10px;
+}
+
+
+.profile-meal-card > .profile-meal-card-title {
+    display: flex;
+    align-items: center;
+    background: #145392;
+    padding: 10px;
+}
+
+.profile-meal-card > .profile-meal-card-title > div:first-child {
+    width: 30px;
+    aspect-ratio: 1/1;
+    background: lightgray;
+    border-radius: 100%;
+    border: 1px solid black;
+    margin-right: 5px;
+}
+
+.profile-meal-card > .profile-meal-card-title > div:nth-child(2) {
+    font-size: 18px;
+    margin-left: 5px;
+    color: white;
+}
+
+.profile-meal-card > .profile-meal-card-title > div:nth-child(3) > button {
+    color: white;
+    border: 1px solid white;
+    margin-left: 20px;
+}
+.profile-meal-card > .profile-meal-card-title > div:nth-child(3) > button > svg {
+    font-size: 15px;
 }
