@@ -57,7 +57,7 @@ function ProfileMealCard(props) {
 
             </section>
             { minArray.length > 0 && <div>
-                <Button variant={"outlined"} onClick={() => setEx(!ex)}>Expand More</Button>
+                <Button variant={"outlined"} onClick={() => setEx(!ex)}>{ex?`Show less` : `Show more`}</Button>
             </div> }
         </div>
     )
