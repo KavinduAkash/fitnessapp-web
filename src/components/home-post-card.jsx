@@ -99,7 +99,7 @@ function HomePostCard(props) {
                             return <div className="each-slide-effect">
                                 <div style={{ 'backgroundImage': `url(http://164.92.75.84/upload/${r.url})` }}>
                                     <div>{index+1}/{postImages.length}</div>
-                                    {videoExtensions.includes(r.url.split(".")[r.url.split(".").length - 1]) && <span><Button variant={'outlined'} onClick={() => props.openVideo(r.url)}><PlayCircleOutlineIcon/>Play</Button></span>}
+                                    {videoExtensions.includes(r.url.split(".")[r.url.split(".").length - 1]) && <span><Button variant={'outlined'} onClick={() => props.openVideo("http://164.92.75.84/upload/" + r.url)}><PlayCircleOutlineIcon/>Play</Button></span>}
                                 </div>
                             </div>}
                         )
